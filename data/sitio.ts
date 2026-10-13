@@ -175,3 +175,16 @@ export const proceso = {
     },
   ],
 };
+
+/**
+ * TESTIMONIOS: agregá opiniones REALES de clientes (con su permiso).
+ * Mientras la lista esté vacía, la web muestra marcadores "pendiente".
+ * Ejemplo:
+ *   { texto: "…", nombre: "Nombre A.", detalle: "Cocina a medida · Asunción" },
+ */
+export const testimonios: { texto: string; nombre: string; detalle?: string }[] = [];
+
+export const testimoniosTextos = {
+  etiqueta: "Testimonios",
+  titulo: "Lo que dicen nuestros clientes",
+};
