@@ -73,3 +73,31 @@ export function linkWhatsapp(mensaje: string = mensajeWhatsappGeneral) {
 }
 
 export const linkInstagram = `https://www.instagram.com/${contacto.instagram}/`;
+
+// ------------------------------------------------------------------
+// TEXTOS
+// ------------------------------------------------------------------
+export const navegacion = [
+  { href: "#nosotros", texto: "Nosotros" },
+  { href: "#trabajos", texto: "Trabajos" },
+  { href: "#proceso", texto: "Cómo trabajamos" },
+  { href: "#presupuesto", texto: "Presupuesto" },
+  { href: "#contacto", texto: "Contacto" },
+];
+
+export const hero = {
+  etiqueta: "Muebles a medida · Paraguay",
+  titulo: "Diseño a medida que transforma tus espacios",
+  /*
+   * Variantes para probar (copiá una en `titulo`):
+   *  - "Muebles que encajan con tu forma de vivir"
+   *  - "Cada centímetro, pensado para vos"
+   */
+  subtitulo:
+    "Diseñamos y fabricamos muebles a medida para hogares, departamentos y oficinas. Líneas limpias, materiales nobles y detalles bien resueltos.",
+  botonTrabajos: "Ver trabajos",
+  botonPresupuesto: "Pedir presupuesto",
+  /** Foto de portada. Ej: "/trabajos/cocinas/cocina-01.jpg". null = sin foto todavía. */
+  foto: null as string | null,
+  fotoAlt: "",
+};
