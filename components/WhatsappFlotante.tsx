@@ -1,18 +1,20 @@
 "use client";
 
-import { useState } from "react";
-import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
+import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
 import { linkWhatsapp } from "@/data/sitio";
 import { IconoWhatsapp } from "./ui";
 
 /** Botón flotante de WhatsApp, solo en celular. Aparece después del hero. */
 export default function WhatsappFlotante() {
-  const { scrollY } = useScroll();
   const [visible, setVisible] = useState(false);
 
-  useMotionValueEvent(scrollY, "change", (y) => {
-    setVisible(y > window.innerHeight * 0.75);
-  });
+  useEffect(() => {
+    const revisar = () => setVisible(window.scrollY > window.innerHeight * 0.75);
+    revisar();
+    window.addEventListener("scroll", revisar, { passive: true });
+    return () => window.removeEventListener("scroll", revisar);
+  }, []);
 
   return (
     <AnimatePresence>
@@ -22,13 +24,14 @@ export default function WhatsappFlotante() {
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Pedir presupuesto por WhatsApp"
-          initial={{ opacity: 0, scale: 0.6, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.6, y: 20 }}
-          transition={{ type: "spring", stiffness: 380, damping: 26 }}
-          className="fixed bottom-[max(1.25rem,env(safe-area-inset-bottom))] right-5 z-30 grid size-14 place-items-center rounded-full bg-salvia-texto text-hueso shadow-[0_12px_32px_-8px] shadow-negro/50 ring-1 ring-hueso/20 md:hidden"
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 24 }}
+          transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+          className="fixed bottom-[max(1rem,env(safe-area-inset-bottom))] right-4 z-40 flex h-14 items-center gap-2 bg-salvia-oscuro px-4 text-blanco shadow-[0_10px_30px_-10px] shadow-negro/60 md:hidden"
         >
-          <IconoWhatsapp className="size-7" />
+          <IconoWhatsapp className="size-6" />
+          <span className="tecnico">Presupuesto</span>
         </motion.a>
       )}
     </AnimatePresence>
