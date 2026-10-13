@@ -141,3 +141,37 @@ export const trabajosTextos = {
   intro: "Filtrá por tipo de espacio y tocá una foto para verla en grande.",
   verMas: "Ver más en Instagram",
 };
+
+// Revisá con el equipo que estos pasos describan bien cómo trabajan.
+export const proceso = {
+  etiqueta: "Cómo trabajamos",
+  titulo: "De la idea al mueble instalado",
+  intro: "Un proceso claro, con vos en cada decisión.",
+  pasos: [
+    {
+      titulo: "Consulta",
+      texto:
+        "Nos escribís por WhatsApp, nos contás qué necesitás y empezamos a darle forma a la idea.",
+    },
+    {
+      titulo: "Medidas",
+      texto:
+        "Definimos las medidas exactas del espacio para que cada pieza encaje con precisión.",
+    },
+    {
+      titulo: "Diseño",
+      texto:
+        "Te proponemos el diseño: distribución, materiales, colores y herrajes, hasta que quede como lo imaginaste.",
+    },
+    {
+      titulo: "Fabricación",
+      texto:
+        "Fabricamos cada mueble cuidando cada unión, cada canto y cada terminación.",
+    },
+    {
+      titulo: "Instalación",
+      texto:
+        "Instalamos todo en tu espacio y lo dejamos listo para que empieces a disfrutarlo.",
+    },
+  ],
+};
