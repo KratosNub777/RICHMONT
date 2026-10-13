@@ -101,3 +101,43 @@ export const hero = {
   foto: null as string | null,
   fotoAlt: "",
 };
+
+export const nosotros = {
+  etiqueta: "Por qué Richmont",
+  titulo: "Muebles hechos para tu espacio, no al revés",
+  intro:
+    "Cada proyecto empieza por escucharte: cómo usás el espacio, qué necesitás guardar y cómo te gusta vivirlo. A partir de ahí diseñamos y fabricamos piezas únicas.",
+  pilares: [
+    {
+      icono: "diseno",
+      titulo: "Diseño personalizado",
+      texto:
+        "Cada mueble se diseña desde cero según tus medidas, tus gustos y la forma en que usás tu espacio.",
+    },
+    {
+      icono: "materiales",
+      titulo: "Materiales de alta calidad",
+      texto:
+        "Elegimos materiales, herrajes y terminaciones que se ven bien hoy y siguen firmes con el uso diario.",
+    },
+    {
+      icono: "durabilidad",
+      titulo: "Funcionalidad y durabilidad",
+      texto:
+        "Pensamos cada cajón, puerta y estante para que sea cómodo, práctico y dure muchos años.",
+    },
+    {
+      icono: "espacios",
+      titulo: "Hogares, departamentos y oficinas",
+      texto:
+        "Proyectos a medida para cada tipo de espacio: desde una cocina completa hasta el mobiliario de tu oficina.",
+    },
+  ],
+};
+
+export const trabajosTextos = {
+  etiqueta: "Trabajos",
+  titulo: "Espacios que ya transformamos",
+  intro: "Filtrá por tipo de espacio y tocá una foto para verla en grande.",
+  verMas: "Ver más en Instagram",
+};
