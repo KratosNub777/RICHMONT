@@ -1,6 +1,7 @@
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Nosotros from "@/components/Nosotros";
+import Trabajos from "@/components/Trabajos";
 import Transicion from "@/components/Transicion";
 
 export default function Inicio() {
@@ -11,6 +12,7 @@ export default function Inicio() {
         <Hero />
         <Transicion de="negro" a="hueso" />
         <Nosotros />
+        <Trabajos />
       </main>
     </>
   );
