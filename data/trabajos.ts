@@ -34,8 +34,6 @@ export type Trabajo = {
   alt?: string;
   /** Cómo se ve en el mosaico. Si no lo ponés, se elige uno automáticamente. */
   formato?: Formato;
-  /** Medidas reales del mueble, se muestran como etiqueta. Ej: "2.40 m × 0.60 m" */
-  medidas?: string;
 };
 
 export const trabajos: Trabajo[] = [
@@ -46,7 +44,6 @@ export const trabajos: Trabajo[] = [
   //   titulo: "Cocina blanca con isla",
   //   alt: "Cocina blanca a medida con isla central, tiradores negros y luz LED bajo las alacenas",
   //   formato: "horizontal",
-  //   medidas: "3.20 m × 0.60 m",
   // },
 ];
 

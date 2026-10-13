@@ -1,6 +1,6 @@
 <!-- Ícono provisorio. Cuando tengan el logo, reemplazar este archivo por el isotipo real. -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" fill="#3F4A3A"/>
-  <text x="32" y="44" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700" fill="#F6F4EF">R</text>
-  <rect x="14" y="52" width="36" height="2" fill="#E8A94F"/>
+  <rect width="64" height="64" rx="14" fill="#17171A"/>
+  <text x="32" y="44" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700" fill="#F4F1EC">R</text>
+  <rect x="16" y="50" width="32" height="2" rx="1" fill="#E8A94F"/>
 </svg>

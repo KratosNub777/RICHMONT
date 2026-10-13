@@ -17,7 +17,6 @@ export type ItemGaleria = {
   formato: Formato;
   /** null = todavía no hay foto: se muestra un marcador "Foto pendiente". */
   src: string | null;
-  medidas: string | null;
 };
 
 const EXTENSIONES = new Set([".jpg", ".jpeg", ".png", ".webp", ".avif"]);
@@ -61,7 +60,6 @@ export function obtenerGaleria(): ItemGaleria[] {
       alt: t.alt ?? `${t.titulo} — mueble a medida de Richmont`,
       formato: t.formato ?? RITMO[items.length % RITMO.length],
       src: t.src,
-      medidas: t.medidas ?? null,
     });
   }
 
@@ -77,7 +75,6 @@ export function obtenerGaleria(): ItemGaleria[] {
         alt: `${titulo} — ${nombreEspacio(carpeta).toLowerCase()} a medida de Richmont`,
         formato: RITMO[items.length % RITMO.length],
         src,
-        medidas: null,
       });
     }
   }
@@ -94,21 +91,11 @@ export function obtenerGaleria(): ItemGaleria[] {
         alt: "",
         formato: RITMO[items.length % RITMO.length],
         src: null,
-        medidas: null,
       });
     }
   }
 
   return items;
-}
-
-/** Primera foto de cada carpeta (para el selector del hero y el acordeón). */
-export function primeraFotoPorEspacio(): Partial<Record<Carpeta, { src: string; alt: string }>> {
-  const resultado: Partial<Record<Carpeta, { src: string; alt: string }>> = {};
-  for (const item of obtenerGaleria()) {
-    if (item.src && !resultado[item.espacio]) resultado[item.espacio] = { src: item.src, alt: item.alt };
-  }
-  return resultado;
 }
 
 export { espacios };

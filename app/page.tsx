@@ -1,13 +1,12 @@
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
-import Materiales from "@/components/Materiales";
-import Trabajos from "@/components/Trabajos";
-import Acabados from "@/components/Acabados";
-import Proceso from "@/components/Proceso";
 import Nosotros from "@/components/Nosotros";
-import Presupuesto from "@/components/Presupuesto";
+import Trabajos from "@/components/Trabajos";
+import Proceso from "@/components/Proceso";
 import Testimonios from "@/components/Testimonios";
+import Presupuesto from "@/components/Presupuesto";
 import Contacto from "@/components/Contacto";
+import Transicion from "@/components/Transicion";
 import WhatsappFlotante from "@/components/WhatsappFlotante";
 
 export default function Inicio() {
@@ -16,13 +15,15 @@ export default function Inicio() {
       <Header />
       <main id="contenido">
         <Hero />
-        <Materiales />
-        <Trabajos />
-        <Acabados />
-        <Proceso />
+        <Transicion de="negro" a="hueso" />
         <Nosotros />
-        <Presupuesto />
+        <Trabajos />
+        <Transicion de="hueso" a="grafito" />
+        <Proceso />
+        <Transicion de="negro" a="hueso" />
         <Testimonios />
+        <Presupuesto />
+        <Transicion de="greige" a="grafito" />
       </main>
       <Contacto />
       <WhatsappFlotante />

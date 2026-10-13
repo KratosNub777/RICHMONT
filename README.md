@@ -1,8 +1,7 @@
 # Richmont Furniture: página web
 
 Web oficial de **Richmont Furniture** (muebles a medida, Paraguay · [@richmontpy](https://www.instagram.com/richmontpy/)).
-Hecha con Next.js, Tailwind CSS y Motion, con estética de "showroom técnico": bloques de color,
-cuadrícula de plano y medidas como detalle gráfico. Está lista para publicarse gratis en Vercel.
+Hecha con Next.js, Tailwind CSS y Motion. Está lista para publicarse gratis en Vercel.
 
 ## Cómo correrla en tu computadora
 
@@ -20,8 +19,7 @@ Antes de publicar podés comprobar que todo compile con `npm run build` y `npm r
 
 | Quiero cambiar…                                    | Archivo / carpeta                     |
 | -------------------------------------------------- | ------------------------------------- |
-| Colores, fuentes, textos, WhatsApp, email, logo    | `data/sitio.ts`                       |
-| Espacios del hero, materiales, acabados            | `data/sitio.ts`                       |
+| Colores, textos, WhatsApp, email, horarios, logo   | `data/sitio.ts`                       |
 | Títulos y descripciones de las fotos               | `data/trabajos.ts`                    |
 | Fotos de los trabajos                              | `public/trabajos/<espacio>/`          |
 | Logo                                               | `public/logo/` + `data/sitio.ts`      |
@@ -31,24 +29,21 @@ Antes de publicar podés comprobar que todo compile con `npm run build` y `npm r
 - Copiá las fotos a la carpeta del espacio: `cocinas`, `living`, `placares`, `exterior` u `otros`.
 - **Aparecen solas en la galería.** El título se arma con el nombre del archivo
   (`cocina-blanca.jpg` → "Cocina blanca").
-- Si querés un título, una descripción o las **medidas** del mueble (se muestran como etiqueta,
-  por ejemplo `"2.40 m × 0.60 m"`), agregá la foto en `data/trabajos.ts` (hay un ejemplo).
+- Si querés un título o una descripción mejor, agregá la foto en `data/trabajos.ts` (hay un ejemplo).
 - Formatos: JPG, PNG, WEBP o AVIF. Subilas en buena calidad: la web las optimiza sola.
-- Mientras un espacio no tenga fotos, se muestra un **plano lineal de referencia** con la leyenda
-  **"Foto pendiente"**.
+- Mientras un espacio no tenga fotos, se muestran recuadros con la leyenda **"Foto pendiente"**.
 
-### Fotos del hero ("Elegí tu espacio")
+### Foto de portada (hero)
 
-El selector del hero (Cocina, Living, Placard, Exterior) toma solo la primera foto de cada carpeta.
-Para elegir otra, completá `foto` en `espaciosHero` dentro de `data/sitio.ts`
-(por ejemplo `"/trabajos/cocinas/cocina-01.jpg"`).
+En `data/sitio.ts`, dentro de `hero`, completá `foto` (por ejemplo `"/trabajos/cocinas/cocina-01.jpg"`)
+y `fotoAlt` con una descripción breve de la foto.
 
 ### Logo
 
 1. Copiá el archivo (ideal SVG o PNG con fondo transparente) a `public/logo/`.
 2. En `data/sitio.ts`, completá `marca.logo` con la ruta y su tamaño real en píxeles:
    `{ src: "/logo/richmont.svg", ancho: 600, alto: 180 }`.
-3. El logo es blanco: la web lo usa **solo sobre fondos oscuros** (header, bloque "Quiénes somos" y footer).
+3. Sobre fondos claros, la web lo oscurece automáticamente con un filtro, sin modificar ni deformar el original.
 4. Opcional: reemplazá `app/icon.svg` (el ícono de la pestaña) por el isotipo real.
 
 ### Datos pendientes
@@ -76,6 +71,6 @@ en **Settings → Environment Variables** para que Google y las redes usen el do
 app/            página, layout (SEO, fuentes), sitemap, robots, imagen para compartir
 components/     cada sección de la página (Hero, Trabajos, Proceso, Presupuesto…)
 data/           textos, colores y lista de trabajos: lo que se edita seguido
-lib/            utilidades (lectura de la galería, acabado elegido, URL del sitio)
+lib/            utilidades (lectura de la galería, scroll suave, URL del sitio)
 public/         logo y fotos
 ```
