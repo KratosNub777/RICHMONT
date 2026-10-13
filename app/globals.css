@@ -140,3 +140,18 @@ html.lenis body {
     animation-duration: 0.01ms !important;
   }
 }
+
+/* Entrada del hero en CSS: arranca apenas se pinta la página, sin esperar a JavaScript */
+@keyframes entrar {
+  from {
+    opacity: 0;
+    transform: translateY(var(--desde, 18px));
+  }
+}
+.entrar {
+  animation: entrar 1s var(--ease-mueble) both;
+  animation-delay: var(--retraso, 0s);
+}
+.entrar-palabra {
+  --desde: 105%;
+}
