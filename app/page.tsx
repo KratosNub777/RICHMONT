@@ -5,6 +5,7 @@ import Trabajos from "@/components/Trabajos";
 import Proceso from "@/components/Proceso";
 import Testimonios from "@/components/Testimonios";
 import Presupuesto from "@/components/Presupuesto";
+import Contacto from "@/components/Contacto";
 import Transicion from "@/components/Transicion";
 
 export default function Inicio() {
@@ -21,7 +22,9 @@ export default function Inicio() {
         <Transicion de="negro" a="hueso" />
         <Testimonios />
         <Presupuesto />
+        <Transicion de="greige" a="grafito" />
       </main>
+      <Contacto />
     </>
   );
 }
