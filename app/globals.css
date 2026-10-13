@@ -70,3 +70,30 @@
     outline-color: var(--negro);
   }
 }
+
+/* ------------------------------------------------------------------
+ * Fondos con degradado
+ * ------------------------------------------------------------------ */
+@utility fondo-claro {
+  background: linear-gradient(180deg, var(--hueso) 0%, var(--arena) 100%);
+}
+@utility fondo-claro-inverso {
+  background: linear-gradient(180deg, var(--arena) 0%, var(--hueso) 55%, var(--hueso) 100%);
+}
+@utility fondo-oscuro {
+  background:
+    radial-gradient(60% 45% at 85% 0%, color-mix(in srgb, var(--ambar) 9%, transparent), transparent 70%),
+    radial-gradient(50% 40% at 10% 100%, color-mix(in srgb, var(--ambar) 6%, transparent), transparent 70%),
+    linear-gradient(180deg, var(--grafito) 0%, var(--negro) 70%);
+}
+
+/* Línea de luz cálida, como un perfil LED bajo un estante */
+@utility luz-led {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--ambar) 85%, transparent) 50%,
+    transparent
+  );
+  box-shadow: 0 0 18px 2px color-mix(in srgb, var(--ambar) 35%, transparent);
+}
