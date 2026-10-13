@@ -1,16 +1,22 @@
 import type { Metadata, Viewport } from "next";
-import {
-  colores,
-  contacto,
-  fuenteMono,
-  fuenteTexto,
-  fuenteTitulos,
-  linkInstagram,
-  marca,
-} from "@/data/sitio";
+import { Inter, Sora } from "next/font/google";
+import { colores, contacto, linkInstagram, marca } from "@/data/sitio";
 import { urlSitio } from "@/lib/url";
-import MovimientoConfig from "@/components/MovimientoConfig";
+import Proveedores from "@/components/Proveedores";
 import "./globals.css";
+
+const titulos = Sora({
+  variable: "--font-titulos",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+});
+
+const texto = Inter({
+  variable: "--font-texto",
+  subsets: ["latin"],
+  display: "swap",
+});
 
 const titulo = `${marca.nombreCompleto} | Muebles a medida en Paraguay`;
 
@@ -83,10 +89,7 @@ const datosEstructurados = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
-      lang="es-PY"
-      className={`${fuenteTitulos.variable} ${fuenteTexto.variable} ${fuenteMono.variable}`}
-    >
+    <html lang="es-PY" className={`${titulos.variable} ${texto.variable}`}>
       <head>
         <style dangerouslySetInnerHTML={{ __html: variablesDeColor }} />
         <script
@@ -99,11 +102,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-dvh overflow-x-clip">
         <a
           href="#contenido"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-negro focus:px-5 focus:py-3 focus:text-blanco"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-negro focus:px-5 focus:py-3 focus:text-hueso"
         >
           Saltar al contenido
         </a>
-        <MovimientoConfig>{children}</MovimientoConfig>
+        <Proveedores>{children}</Proveedores>
+        <div className="grano" aria-hidden="true" />
       </body>
     </html>
   );
