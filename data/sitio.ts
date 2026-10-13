@@ -31,3 +31,45 @@ export const colores = {
 } as const;
 
 export type NombreColor = keyof typeof colores;
+
+// ------------------------------------------------------------------
+// MARCA Y CONTACTO
+// ------------------------------------------------------------------
+export const marca = {
+  nombre: "Richmont",
+  nombreCompleto: "Richmont Furniture",
+  descripcion:
+    "Muebles a medida en Paraguay. Diseñamos y fabricamos cocinas, placares, livings y muebles para hogares, departamentos y oficinas.",
+  /**
+   * LOGO: cuando tengas el archivo, copialo a /public/logo/ y completá:
+   *   src: "/logo/nombre-del-archivo.png" (o .svg)
+   *   ancho / alto: tamaño real del archivo en píxeles (para no deformarlo)
+   * Mientras sea null se muestra el nombre en texto.
+   */
+  logo: {
+    src: null as string | null,
+    ancho: 0,
+    alto: 0,
+  },
+};
+
+export const contacto = {
+  whatsappVisible: "0994 153 494",
+  whatsappInternacional: "595994153494", // formato para wa.me, sin + ni espacios
+  instagram: "richmontpy",
+  email: PENDIENTE as string | null,
+  facebook: PENDIENTE as string | null, // link completo de la página
+  direccion: PENDIENTE as string | null,
+  ciudad: PENDIENTE as string | null,
+  horarios: PENDIENTE as string | null, // ej: "Lunes a viernes de 8:00 a 17:00"
+};
+
+export const mensajeWhatsappGeneral =
+  "¡Hola Richmont! Vi su página web y quiero pedir un presupuesto.";
+
+/** Arma el link de WhatsApp con un mensaje ya escrito. */
+export function linkWhatsapp(mensaje: string = mensajeWhatsappGeneral) {
+  return `https://wa.me/${contacto.whatsappInternacional}?text=${encodeURIComponent(mensaje)}`;
+}
+
+export const linkInstagram = `https://www.instagram.com/${contacto.instagram}/`;
