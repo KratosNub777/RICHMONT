@@ -188,3 +188,27 @@ export const testimoniosTextos = {
   etiqueta: "Testimonios",
   titulo: "Lo que dicen nuestros clientes",
 };
+
+export const presupuestoTextos = {
+  etiqueta: "Presupuesto",
+  titulo: "Contanos tu proyecto",
+  intro:
+    "Completá estos datos y te abrimos WhatsApp con el mensaje listo para enviar. Sin compromiso.",
+  tiposDeEspacio: [
+    "Cocina",
+    "Living / comedor",
+    "Placar / vestidor",
+    "Dormitorio",
+    "Baño",
+    "Exterior / quincho",
+    "Oficina",
+    "Otro",
+  ],
+  boton: "Enviar por WhatsApp",
+};
+
+export const contactoTextos = {
+  etiqueta: "Contacto",
+  titulo: "Hablemos de tu próximo mueble",
+  intro: "La forma más rápida de contactarnos es por WhatsApp.",
+};
