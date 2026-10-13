@@ -4,10 +4,10 @@ import { useEffect, useRef } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion, type PanInfo } from "motion/react";
 import type { ItemGaleria } from "@/lib/galeria";
-import { bloquearScroll } from "@/lib/lenis";
-import { IconoFlecha } from "./ui";
+import { bloquearScroll } from "@/lib/scroll";
+import { Cota, IconoFlecha } from "./ui";
 
-const ease = [0.22, 1, 0.36, 1] as const;
+import { easePreciso } from "./movimiento";
 
 export default function Lightbox({
   fotos,
@@ -77,18 +77,17 @@ export default function Lightbox({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.35 }}
-          className="fixed inset-0 z-[70] flex flex-col bg-negro/95 text-hueso backdrop-blur-sm"
-          data-lenis-prevent
+          className="oscuro fixed inset-0 z-[70] flex flex-col bg-negro text-blanco"
         >
           <div className="flex items-center justify-between gap-4 px-5 py-4 sm:px-8">
-            <p className="text-sm text-greige" aria-hidden="true">
+            <p className="tecnico text-humo" aria-hidden="true">
               {String(indice! + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
             </p>
             <button
               ref={cerrarRef}
               type="button"
               onClick={alCerrar}
-              className="grid size-11 place-items-center rounded-full border border-hueso/25 transition-colors hover:border-ambar hover:text-ambar"
+              className="grid size-11 place-items-center border border-blanco/30 transition-colors hover:border-roble hover:bg-roble hover:text-negro"
               aria-label="Cerrar"
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true" className="size-5">
@@ -103,10 +102,10 @@ export default function Lightbox({
               <motion.div
                 key={foto.id}
                 className="absolute inset-0 mx-auto max-w-6xl px-3 sm:px-20"
-                initial={{ opacity: 0, scale: 0.98 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.98 }}
-                transition={{ duration: 0.45, ease }}
+                initial={{ clipPath: "inset(0% 0% 0% 100%)" }}
+                animate={{ clipPath: "inset(0% 0% 0% 0%)" }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.6, ease: easePreciso }}
                 drag={total > 1 ? "x" : false}
                 dragConstraints={{ left: 0, right: 0 }}
                 dragElastic={0.25}
@@ -134,7 +133,7 @@ export default function Lightbox({
                     e.stopPropagation();
                     alCambiar((indice! - 1 + total) % total);
                   }}
-                  className="absolute left-3 top-1/2 hidden size-12 -translate-y-1/2 place-items-center rounded-full border border-hueso/25 bg-negro/40 transition-colors hover:border-ambar hover:text-ambar sm:grid"
+                  className="absolute left-3 top-1/2 hidden size-12 -translate-y-1/2 place-items-center border border-blanco/30 bg-negro transition-colors hover:border-roble hover:bg-roble hover:text-negro sm:grid"
                   aria-label="Foto anterior"
                 >
                   <IconoFlecha className="size-5 rotate-180" />
@@ -145,7 +144,7 @@ export default function Lightbox({
                     e.stopPropagation();
                     alCambiar((indice! + 1) % total);
                   }}
-                  className="absolute right-3 top-1/2 hidden size-12 -translate-y-1/2 place-items-center rounded-full border border-hueso/25 bg-negro/40 transition-colors hover:border-ambar hover:text-ambar sm:grid"
+                  className="absolute right-3 top-1/2 hidden size-12 -translate-y-1/2 place-items-center border border-blanco/30 bg-negro transition-colors hover:border-roble hover:bg-roble hover:text-negro sm:grid"
                   aria-label="Foto siguiente"
                 >
                   <IconoFlecha className="size-5" />
@@ -154,12 +153,15 @@ export default function Lightbox({
             )}
           </div>
 
-          <div className="px-5 pb-6 pt-4 text-center sm:px-8" aria-live="polite">
-            <p className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ambar">
-              {nombreEspacio(foto.espacio)}
-            </p>
-            <p className="mt-1 font-display text-lg font-semibold">{foto.titulo}</p>
-            {total > 1 && <p className="mt-2 text-xs text-greige sm:hidden">Deslizá para ver más</p>}
+          <div className="mx-auto w-full max-w-3xl px-5 pb-6 pt-4 sm:px-8" aria-live="polite">
+            <p className="tecnico text-humo">{nombreEspacio(foto.espacio)}</p>
+            <p className="mt-1 font-display text-xl font-semibold">{foto.titulo}</p>
+            {foto.medidas && (
+              <Cota oscuro className="mt-3">
+                {foto.medidas}
+              </Cota>
+            )}
+            {total > 1 && <p className="tecnico mt-3 text-humo sm:hidden">Deslizá para ver más</p>}
           </div>
         </motion.div>
       )}
