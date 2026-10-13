@@ -1,132 +1,177 @@
 @import "tailwindcss";
 
 /*
- * Los valores de los colores vienen de data/sitio.ts (se inyectan en <head>).
- * Acá solo se conectan con Tailwind: bg-hueso, text-negro, border-roble, etc.
+ * Los valores de colores y fuentes vienen de data/sitio.ts (se inyectan en <head>).
+ * Acá solo se conectan con Tailwind: bg-blanco, text-negro, border-greige, font-mono, etc.
  */
 @theme inline {
-  --color-hueso: var(--hueso);
-  --color-arena: var(--arena);
+  --color-blanco: var(--blanco);
+  --color-superficie: var(--superficie);
   --color-greige: var(--greige);
   --color-salvia: var(--salvia);
-  --color-salvia-texto: var(--salviaTexto);
-  --color-roble: var(--roble);
-  --color-roble-texto: var(--robleTexto);
-  --color-ambar: var(--ambar);
-  --color-carbon: var(--carbon);
-  --color-grafito: var(--grafito);
+  --color-salvia-oscuro: var(--salviaOscuro);
   --color-negro: var(--negro);
+  --color-tinta: var(--tinta);
+  --color-humo: var(--humo);
+  --color-roble: var(--roble);
+  --color-ambar: var(--ambar);
 
   --font-display: var(--font-titulos);
   --font-sans: var(--font-texto);
+  --font-mono: var(--font-mono);
 
   /* Escala tipográfica fluida (de 360px a 1440px) */
-  --text-display: clamp(2.6rem, 1.45rem + 5.2vw, 6.4rem);
-  --text-display--line-height: 0.98;
-  --text-display--letter-spacing: -0.035em;
-  --text-titulo: clamp(2rem, 1.35rem + 2.9vw, 4rem);
-  --text-titulo--line-height: 1.04;
-  --text-titulo--letter-spacing: -0.03em;
-  --text-subtitulo: clamp(1.25rem, 1.08rem + 0.75vw, 1.75rem);
-  --text-subtitulo--line-height: 1.25;
-  --text-subtitulo--letter-spacing: -0.015em;
+  --text-display: clamp(2.75rem, 1.6rem + 5vw, 6rem);
+  --text-display--line-height: 0.95;
+  --text-display--letter-spacing: -0.04em;
+  --text-titulo: clamp(2.1rem, 1.4rem + 3vw, 4.25rem);
+  --text-titulo--line-height: 1;
+  --text-titulo--letter-spacing: -0.035em;
+  --text-subtitulo: clamp(1.3rem, 1.1rem + 0.8vw, 1.85rem);
+  --text-subtitulo--line-height: 1.2;
+  --text-subtitulo--letter-spacing: -0.02em;
   --text-cuerpo: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
-  --text-cuerpo--line-height: 1.65;
-  --text-etiqueta: 0.75rem;
-  --text-etiqueta--line-height: 1.2;
-  --text-etiqueta--letter-spacing: 0.18em;
+  --text-cuerpo--line-height: 1.6;
+  --text-tecnico: 0.75rem;
+  --text-tecnico--line-height: 1.3;
+  --text-tecnico--letter-spacing: 0.06em;
+  --text-numero: clamp(6rem, 3rem + 14vw, 17rem);
+  --text-numero--line-height: 0.8;
+  --text-numero--letter-spacing: -0.06em;
 
-  --ease-mueble: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-preciso: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-salida: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @layer base {
   html {
-    scroll-padding-top: 5rem;
+    scroll-behavior: smooth;
+    scroll-padding-top: 4.5rem;
     -webkit-text-size-adjust: 100%;
-    text-rendering: optimizeLegibility;
   }
 
   body {
-    background: var(--hueso);
-    color: var(--grafito);
+    background: var(--blanco);
+    color: var(--negro);
     font-family: var(--font-texto), system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   ::selection {
-    background: var(--ambar);
-    color: var(--negro);
+    background: var(--salviaOscuro);
+    color: var(--blanco);
   }
 
   :focus-visible {
-    outline: 2px solid var(--ambar);
+    outline: 2px solid var(--negro);
     outline-offset: 3px;
-    border-radius: 2px;
   }
 
-  /* En secciones claras el ámbar no contrasta: el foco usa el negro mate. */
-  .tono-claro :focus-visible {
-    outline-color: var(--negro);
+  /* Sobre fondos oscuros el foco se ve en ámbar */
+  .oscuro :focus-visible {
+    outline-color: var(--ambar);
   }
 }
 
 /* ------------------------------------------------------------------
- * Fondos con degradado
+ * Superficies
  * ------------------------------------------------------------------ */
-@utility fondo-claro {
-  background: linear-gradient(180deg, var(--hueso) 0%, var(--arena) 100%);
-}
-@utility fondo-claro-inverso {
-  background: linear-gradient(180deg, var(--arena) 0%, var(--hueso) 55%, var(--hueso) 100%);
-}
-@utility fondo-oscuro {
-  background:
-    radial-gradient(60% 45% at 85% 0%, color-mix(in srgb, var(--ambar) 9%, transparent), transparent 70%),
-    radial-gradient(50% 40% at 10% 100%, color-mix(in srgb, var(--ambar) 6%, transparent), transparent 70%),
-    linear-gradient(180deg, var(--grafito) 0%, var(--negro) 70%);
+
+/* Cuadrícula de plano técnico: líneas finas cada 24px y marcadas cada 120px */
+@utility cuadricula {
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, var(--greige) 45%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--greige) 45%, transparent) 1px, transparent 1px),
+    linear-gradient(to right, color-mix(in srgb, var(--greige) 22%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--greige) 22%, transparent) 1px, transparent 1px);
+  background-size:
+    120px 120px,
+    120px 120px,
+    24px 24px,
+    24px 24px;
 }
 
-/* Línea de luz cálida, como un perfil LED bajo un estante */
-@utility luz-led {
-  background: linear-gradient(
-    90deg,
-    transparent,
-    color-mix(in srgb, var(--ambar) 85%, transparent) 50%,
-    transparent
-  );
-  box-shadow: 0 0 18px 2px color-mix(in srgb, var(--ambar) 35%, transparent);
+/* Versión para fondos oscuros */
+@utility cuadricula-oscura {
+  background-image:
+    linear-gradient(to right, rgb(246 244 239 / 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(246 244 239 / 0.07) 1px, transparent 1px);
+  background-size: 96px 96px;
 }
 
-/* Grano de papel / madera muy sutil sobre todo el sitio */
-.grano {
-  position: fixed;
-  inset: 0;
-  z-index: 60;
-  pointer-events: none;
-  opacity: 0.05;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+/* Etiqueta técnica (medidas, códigos) */
+@utility tecnico {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: var(--text-tecnico);
+  line-height: var(--text-tecnico--line-height);
+  letter-spacing: var(--text-tecnico--letter-spacing);
+  text-transform: uppercase;
 }
 
 /* Marcadores de contenido pendiente: visibles a propósito */
 .marcador {
   border: 1px dashed currentColor;
-  border-radius: 999px;
-  padding: 0.15em 0.7em;
-  font-size: 0.8em;
-  letter-spacing: 0.02em;
+  padding: 0.2em 0.6em;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
-/* Lenis (scroll suave) */
-html.lenis,
-html.lenis body {
-  height: auto;
+/* ------------------------------------------------------------------
+ * Movimiento (solo transform, opacity y clip-path)
+ * ------------------------------------------------------------------ */
+
+/* Entrada del hero en CSS: arranca apenas se pinta la página, sin esperar a JavaScript */
+@keyframes destapar {
+  from {
+    clip-path: inset(0 0 100% 0);
+    transform: translateY(0.25em);
+  }
+  to {
+    clip-path: inset(0 0 -0.2em 0);
+    transform: none;
+  }
 }
-.lenis:not(.lenis-autoToggle).lenis-stopped {
-  overflow: clip;
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
 }
-.lenis.lenis-smooth [data-lenis-prevent] {
-  overscroll-behavior: contain;
+@keyframes cortina {
+  from {
+    clip-path: inset(0 0 0 100%);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+.destapar {
+  animation: destapar 0.9s var(--ease-salida) both;
+  animation-delay: var(--retraso, 0s);
+}
+.aparecer {
+  animation: aparecer 0.8s var(--ease-salida) both;
+  animation-delay: var(--retraso, 0s);
+}
+.cortina {
+  animation: cortina 1.1s var(--ease-preciso) both;
+  animation-delay: var(--retraso, 0s);
+}
+
+/* Franja de materiales */
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee {
+  animation: marquee 48s linear infinite;
+}
+.marquee:hover {
+  animation-play-state: paused;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -136,22 +181,25 @@ html.lenis body {
   *,
   *::before,
   *::after {
-    transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .marquee {
+    animation: none;
   }
 }
 
-/* Entrada del hero en CSS: arranca apenas se pinta la página, sin esperar a JavaScript */
-@keyframes entrar {
-  from {
-    opacity: 0;
-    transform: translateY(var(--desde, 18px));
-  }
+/* Trazos de los planos (components/Plano.tsx) */
+.plano .tirador {
+  stroke-width: 3;
 }
-.entrar {
-  animation: entrar 1s var(--ease-mueble) both;
-  animation-delay: var(--retraso, 0s);
+.plano .fino {
+  stroke-width: 0.8;
+  opacity: 0.6;
 }
-.entrar-palabra {
-  --desde: 105%;
+.plano .led {
+  stroke: var(--ambar);
+  stroke-width: 2.2;
+  filter: drop-shadow(0 0 4px var(--ambar));
 }
