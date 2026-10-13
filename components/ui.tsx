@@ -1,15 +1,21 @@
 import Image from "next/image";
 import { marca } from "@/data/sitio";
 
-/** Pequeño título sobre cada sección, con una línea de madera. */
-export function Etiqueta({ children, oscuro = false }: { children: React.ReactNode; oscuro?: boolean }) {
+/** Etiqueta técnica sobre cada sección: código + nombre, en mono. */
+export function Etiqueta({
+  codigo,
+  children,
+  oscuro = false,
+}: {
+  codigo: string;
+  children: React.ReactNode;
+  oscuro?: boolean;
+}) {
   return (
-    <p
-      className={`flex items-center gap-3 font-sans text-etiqueta font-semibold uppercase ${
-        oscuro ? "text-roble" : "text-roble-texto"
-      }`}
-    >
-      <span aria-hidden="true" className="h-px w-8 bg-current" />
+    <p className={`tecnico flex items-center gap-3 ${oscuro ? "text-humo" : "text-salvia-oscuro"}`}>
+      <span className={`border px-1.5 py-0.5 ${oscuro ? "border-humo/40" : "border-salvia-oscuro/40"}`}>
+        {codigo}
+      </span>
       {children}
     </p>
   );
@@ -21,22 +27,36 @@ export function Marcador({ children = "Pendiente" }: { children?: React.ReactNod
 }
 
 /**
- * Logo de Richmont.
- * - "claro": para fondos oscuros (el logo original, blanco).
- * - "oscuro": para fondos claros. Se oscurece con un filtro CSS, sin tocar el archivo
- *   ni deformarlo (mantiene su proporción real).
+ * Cota: línea de medida con topes en los extremos, como en un plano.
+ * Solo decorativa: el texto se lee igual.
+ */
+export function Cota({
+  children,
+  className = "",
+  oscuro = false,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  oscuro?: boolean;
+}) {
+  const linea = oscuro ? "bg-humo/50" : "bg-negro/40";
+  return (
+    <div className={`tecnico flex items-center gap-3 ${oscuro ? "text-humo" : "text-tinta"} ${className}`}>
+      <span aria-hidden="true" className={`h-2.5 w-px ${linea}`} />
+      <span aria-hidden="true" className={`h-px flex-1 ${linea}`} />
+      <span className="shrink-0 whitespace-nowrap normal-case">{children}</span>
+      <span aria-hidden="true" className={`h-px flex-1 ${linea}`} />
+      <span aria-hidden="true" className={`h-2.5 w-px ${linea}`} />
+    </div>
+  );
+}
+
+/**
+ * Logo de Richmont. Es blanco: se usa SOLO sobre fondos oscuros
+ * (negro mate o salvia oscuro). Mantiene su proporción real.
  * Mientras no esté cargado el archivo (data/sitio.ts → marca.logo), se muestra el nombre.
  */
-export function Logo({
-  variante = "claro",
-  className = "",
-  prioritario = false,
-}: {
-  variante?: "claro" | "oscuro";
-  className?: string;
-  /** true solo en el header: se carga antes que el resto. */
-  prioritario?: boolean;
-}) {
+export function Logo({ className = "", prioritario = false }: { className?: string; prioritario?: boolean }) {
   const { src, ancho, alto } = marca.logo;
 
   if (src && ancho && alto) {
@@ -47,21 +67,15 @@ export function Logo({
         width={ancho}
         height={alto}
         preload={prioritario}
-        className={`h-full w-auto transition-[filter] duration-500 ${
-          variante === "oscuro" ? "[filter:brightness(0)_opacity(0.82)]" : ""
-        } ${className}`}
+        className={`h-full w-auto ${className}`}
       />
     );
   }
 
   return (
-    <span
-      className={`flex flex-col leading-none transition-colors duration-500 ${
-        variante === "oscuro" ? "text-negro" : "text-hueso"
-      } ${className}`}
-    >
-      <span className="font-display text-[1.35rem] font-semibold tracking-[0.2em]">RICHMONT</span>
-      <span className="mt-1 font-sans text-[0.58rem] font-medium tracking-[0.5em] opacity-80">FURNITURE</span>
+    <span className={`flex items-baseline gap-2 text-blanco ${className}`}>
+      <span className="font-display text-xl font-bold tracking-[0.14em]">RICHMONT</span>
+      <span className="tecnico text-[0.6rem] text-humo">Furniture</span>
     </span>
   );
 }
@@ -87,7 +101,7 @@ export function IconoInstagram({ className = "size-5" }: { className?: string })
 export function IconoFlecha({ className = "size-4" }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true" className={className}>
-      <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="square" />
     </svg>
   );
 }
