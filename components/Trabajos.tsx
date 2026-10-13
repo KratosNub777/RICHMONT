@@ -1,45 +1,59 @@
 import { linkInstagram, trabajosTextos } from "@/data/sitio";
 import { espacios, obtenerGaleria } from "@/lib/galeria";
-import GaleriaTrabajos from "./GaleriaTrabajos";
-import { Revelar, TituloRevelado } from "./movimiento";
+import AcordeonEspacios from "./AcordeonEspacios";
+import GaleriaHorizontal from "./GaleriaHorizontal";
+import { Revelar } from "./movimiento";
 import { Etiqueta, IconoInstagram } from "./ui";
+import FiltroProvider from "./FiltroTrabajos";
 
 export default function Trabajos() {
   // Se lee al construir la web: fotos de public/trabajos/ + data/trabajos.ts
   const items = obtenerGaleria();
+  const listaEspacios = espacios.map((e) => {
+    const deEste = items.filter((i) => i.espacio === e.carpeta);
+    const foto = deEste.find((i) => i.src);
+    return {
+      carpeta: e.carpeta,
+      nombre: e.nombre,
+      cantidad: deEste.filter((i) => i.src).length,
+      foto: foto?.src ? { src: foto.src, alt: foto.alt } : null,
+    };
+  });
 
   return (
-    <section id="trabajos" aria-labelledby="titulo-trabajos" className="tono-claro fondo-claro-inverso">
-      <div className="mx-auto max-w-[90rem] px-5 pb-24 pt-10 sm:px-8 md:pb-32 lg:px-12 lg:pb-40">
-        <div className="max-w-3xl">
-          <Revelar>
-            <Etiqueta>{trabajosTextos.etiqueta}</Etiqueta>
-          </Revelar>
-          <TituloRevelado
-            id="titulo-trabajos"
-            texto={trabajosTextos.titulo}
-            className="mt-6 font-display text-titulo font-semibold text-negro text-balance"
-          />
-          <Revelar retraso={0.15}>
-            <p className="mt-6 text-cuerpo text-grafito">{trabajosTextos.intro}</p>
-          </Revelar>
+    <FiltroProvider>
+      <section id="trabajos" aria-labelledby="titulo-trabajos" className="pt-20 md:pt-28 lg:pt-32">
+        <div className="mx-auto max-w-[90rem] px-4 sm:px-8 lg:px-12">
+          <div className="grid gap-6 lg:grid-cols-12 lg:items-end">
+            <div className="lg:col-span-7">
+              <Etiqueta codigo="R—01">{trabajosTextos.etiqueta}</Etiqueta>
+              <Revelar>
+                <h2 id="titulo-trabajos" className="mt-6 font-display text-titulo font-bold text-balance">
+                  {trabajosTextos.titulo}
+                </h2>
+              </Revelar>
+            </div>
+            <p className="max-w-md text-cuerpo text-tinta lg:col-span-4 lg:col-start-9">{trabajosTextos.intro}</p>
+          </div>
         </div>
 
-        <GaleriaTrabajos items={items} espacios={espacios.map((e) => ({ ...e }))} />
+        <AcordeonEspacios espacios={listaEspacios} />
+      </section>
 
-        <Revelar className="mt-14 flex justify-center">
-          <a
-            href={linkInstagram}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group inline-flex items-center gap-3 rounded-full border border-negro/20 px-6 py-3.5 font-semibold text-negro transition-colors hover:border-negro hover:bg-negro hover:text-hueso"
-          >
-            <IconoInstagram />
-            {trabajosTextos.verMas}
-            <span className="sr-only">(abre Instagram)</span>
-          </a>
-        </Revelar>
+      <GaleriaHorizontal items={items} espacios={espacios.map((e) => ({ ...e }))} />
+
+      <div className="mx-auto flex max-w-[90rem] justify-start px-4 pb-20 pt-10 sm:px-8 md:pb-28 lg:px-12">
+        <a
+          href={linkInstagram}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-3 border border-negro px-5 py-3.5 font-semibold transition-colors hover:bg-negro hover:text-blanco"
+        >
+          <IconoInstagram />
+          {trabajosTextos.verMas}
+          <span className="sr-only">(abre Instagram)</span>
+        </a>
       </div>
-    </section>
+    </FiltroProvider>
   );
 }

@@ -1,68 +1,126 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useScroll, useSpring } from "motion/react";
+import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
 import { proceso } from "@/data/sitio";
-import { Revelar, TituloRevelado } from "./movimiento";
+import { easePreciso, easeSalida, Foco, Revelar } from "./movimiento";
 import { Etiqueta } from "./ui";
 
-const ease = [0.22, 1, 0.36, 1] as const;
+const numero = (i: number) => String(i + 1).padStart(2, "0");
 
 export default function Proceso() {
-  const listaRef = useRef<HTMLOListElement>(null);
-  // La línea se "enciende" a medida que avanzás por los pasos, como una tira LED.
-  const { scrollYProgress } = useScroll({ target: listaRef, offset: ["start 75%", "end 55%"] });
-  const progreso = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.3 });
+  const [activo, setActivo] = useState(0);
+  const pasosRef = useRef<(HTMLLIElement | null)[]>([]);
+  const total = proceso.pasos.length;
+
+  // El paso que cruza la mitad de la pantalla es el activo
+  useEffect(() => {
+    const observador = new IntersectionObserver(
+      (entradas) => {
+        for (const e of entradas) {
+          if (e.isIntersecting) setActivo(Number((e.target as HTMLElement).dataset.indice));
+        }
+      },
+      { rootMargin: "-50% 0px -50% 0px" },
+    );
+    pasosRef.current.forEach((el) => el && observador.observe(el));
+    return () => observador.disconnect();
+  }, []);
 
   return (
-    <section id="proceso" aria-labelledby="titulo-proceso" className="fondo-oscuro relative text-hueso">
-      <div className="mx-auto grid max-w-[90rem] gap-14 px-5 py-20 sm:px-8 md:py-28 lg:grid-cols-12 lg:gap-10 lg:px-12 lg:py-36">
-        <div className="lg:col-span-5">
-          <div className="lg:sticky lg:top-32">
-            <Revelar>
-              <Etiqueta oscuro>{proceso.etiqueta}</Etiqueta>
-            </Revelar>
-            <TituloRevelado
-              id="titulo-proceso"
-              texto={proceso.titulo}
-              className="mt-6 font-display text-titulo font-semibold text-balance"
-            />
-            <Revelar retraso={0.15}>
-              <p className="mt-7 max-w-md text-cuerpo text-greige">{proceso.intro}</p>
-            </Revelar>
+    <section
+      id="proceso"
+      aria-labelledby="titulo-proceso"
+      className="oscuro cuadricula-oscura relative overflow-clip bg-negro text-blanco"
+    >
+      <Foco />
+      <div className="relative mx-auto max-w-[90rem] px-4 pt-20 sm:px-8 md:pt-28 lg:px-12">
+        <Etiqueta codigo="R—03" oscuro>
+          {proceso.etiqueta}
+        </Etiqueta>
+        <Revelar>
+          <h2 id="titulo-proceso" className="mt-6 max-w-3xl font-display text-titulo font-bold">
+            {proceso.titulo}
+          </h2>
+        </Revelar>
+      </div>
+
+      <div className="relative mx-auto grid max-w-[90rem] px-4 pb-20 sm:px-8 md:pb-28 lg:grid-cols-12 lg:px-12">
+        {/* Columna fija (computadora): número grande que cambia con el scroll */}
+        <div aria-hidden="true" className="hidden lg:col-span-6 lg:block">
+          <div className="sticky top-16 flex h-[calc(100svh-4rem)] flex-col justify-center">
+            <div className="relative h-[0.8em] overflow-hidden font-display text-numero font-bold">
+              <AnimatePresence initial={false} mode="popLayout">
+                <motion.span
+                  key={activo}
+                  className="absolute left-0 top-0 block"
+                  initial={{ y: "100%", clipPath: "inset(0% 0% 100% 0%)" }}
+                  animate={{ y: "0%", clipPath: "inset(0% 0% 0% 0%)" }}
+                  exit={{ y: "-100%", clipPath: "inset(100% 0% 0% 0%)" }}
+                  transition={{ duration: 0.6, ease: easePreciso }}
+                >
+                  {numero(activo)}
+                </motion.span>
+              </AnimatePresence>
+            </div>
+            <div className="mt-8 overflow-hidden">
+              <AnimatePresence initial={false} mode="wait">
+                <motion.p
+                  key={activo}
+                  className="font-display text-subtitulo font-semibold"
+                  initial={{ y: "100%", opacity: 0 }}
+                  animate={{ y: "0%", opacity: 1 }}
+                  exit={{ y: "-60%", opacity: 0 }}
+                  transition={{ duration: 0.35, ease: easeSalida }}
+                >
+                  {proceso.pasos[activo].titulo}
+                </motion.p>
+              </AnimatePresence>
+            </div>
+            {/* Avance: un segmento por paso */}
+            <div className="mt-8 flex max-w-sm gap-1.5">
+              {proceso.pasos.map((p, i) => (
+                <span key={p.titulo} className="relative h-1 flex-1 overflow-hidden bg-blanco/15">
+                  <motion.span
+                    className="absolute inset-0 origin-left bg-ambar"
+                    animate={{ scaleX: i <= activo ? 1 : 0 }}
+                    transition={{ duration: 0.5, ease: easePreciso }}
+                  />
+                </span>
+              ))}
+            </div>
+            <p className="tecnico mt-4 text-humo">
+              Paso {numero(activo)} / {numero(total - 1)}
+            </p>
           </div>
         </div>
 
-        <ol ref={listaRef} className="relative lg:col-span-6 lg:col-start-7">
-          {/* Riel y luz de la línea de tiempo */}
-          <span aria-hidden="true" className="absolute bottom-3 left-[0.6875rem] top-3 w-px bg-hueso/12" />
-          <motion.span
-            aria-hidden="true"
-            style={{ scaleY: progreso }}
-            className="absolute bottom-3 left-[0.6875rem] top-3 w-px origin-top bg-ambar shadow-[0_0_14px_1px] shadow-ambar/60"
-          />
-
+        {/* Pasos */}
+        <ol className="lg:col-span-5 lg:col-start-8 lg:border-l lg:border-blanco/15">
           {proceso.pasos.map((paso, i) => (
-            <li key={paso.titulo} className="relative pb-14 pl-14 last:pb-0 sm:pl-20">
-              {/* Punto que se ilumina al llegar */}
-              <span aria-hidden="true" className="absolute left-0 top-1 grid size-6 place-items-center">
-                <span className="absolute inset-0 rounded-full border border-hueso/25 bg-negro" />
-                <motion.span
-                  className="relative size-2.5 rounded-full bg-ambar shadow-[0_0_16px_3px] shadow-ambar/70"
-                  initial={{ opacity: 0, scale: 0.3 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true, margin: "0px 0px -45% 0px" }}
-                  transition={{ duration: 0.6, ease }}
-                />
-              </span>
-
-              <Revelar y={20}>
-                <p className="font-display text-sm font-medium tracking-wider text-roble">
-                  Paso 0{i + 1}
-                </p>
-                <h3 className="mt-2 font-display text-subtitulo font-semibold">{paso.titulo}</h3>
-                <p className="mt-3 max-w-md text-cuerpo text-greige">{paso.texto}</p>
+            <li
+              key={paso.titulo}
+              ref={(el) => {
+                pasosRef.current[i] = el;
+              }}
+              data-indice={i}
+              className="relative flex flex-col justify-center border-t border-blanco/15 py-12 lg:min-h-[70svh] lg:py-0 lg:pl-8"
+            >
+              {/* Marca del paso activo */}
+              <span
+                aria-hidden="true"
+                className={`absolute -left-px top-[30%] hidden h-[40%] w-0.5 origin-top bg-ambar shadow-[0_0_12px] shadow-ambar/60 transition-transform duration-500 ease-preciso lg:block ${
+                  i === activo ? "scale-y-100" : "scale-y-0"
+                }`}
+              />
+              <Revelar>
+                <span aria-hidden="true" className="block font-display text-[clamp(4.5rem,20vw,7rem)] font-bold leading-[0.85] tracking-tighter lg:hidden">
+                  {numero(i)}
+                </span>
               </Revelar>
+              <p className="tecnico mt-6 text-roble lg:mt-0">Paso {numero(i)}</p>
+              <h3 className="mt-3 font-display text-subtitulo font-semibold">{paso.titulo}</h3>
+              <p className="mt-4 max-w-md text-cuerpo text-humo">{paso.texto}</p>
             </li>
           ))}
         </ol>

@@ -1,32 +1,34 @@
 "use client";
 
-import { useRef } from "react";
-import {
-  motion,
-  useMotionValue,
-  useReducedMotion,
-  useScroll,
-  useSpring,
-  useTransform,
-  type HTMLMotionProps,
-} from "motion/react";
+import { useEffect, useRef } from "react";
+import { motion, useMotionValue, useReducedMotion, useSpring, type HTMLMotionProps } from "motion/react";
 
-const ease = [0.22, 1, 0.36, 1] as const;
+export const easeSalida = [0.16, 1, 0.3, 1] as const;
+export const easePreciso = [0.65, 0, 0.35, 1] as const;
 
-/** Aparece suavemente al entrar en pantalla (solo opacidad y desplazamiento). */
+const mascaras = {
+  // El contenido sube desde abajo, recortado por una máscara
+  arriba: { oculto: "inset(100% 0% 0% 0%)", visible: "inset(0% 0% 0% 0%)", y: 24 },
+  // Cortina horizontal, de izquierda a derecha (para fotos y bloques)
+  cortina: { oculto: "inset(0% 100% 0% 0%)", visible: "inset(0% 0% 0% 0%)", y: 0 },
+} as const;
+
+/** Revela el contenido con una máscara (clip-path) al entrar en pantalla. */
 export function Revelar({
   children,
   retraso = 0,
-  y = 28,
+  tipo = "arriba",
   className,
   ...resto
-}: HTMLMotionProps<"div"> & { retraso?: number; y?: number }) {
+}: HTMLMotionProps<"div"> & { retraso?: number; tipo?: keyof typeof mascaras }) {
+  const reducir = useReducedMotion();
+  const m = mascaras[tipo];
   return (
     <motion.div
-      initial={{ opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "0px 0px -12% 0px" }}
-      transition={{ duration: 0.9, ease, delay: retraso }}
+      initial={reducir ? false : { clipPath: m.oculto, y: m.y }}
+      whileInView={{ clipPath: m.visible, y: 0 }}
+      viewport={{ once: true, margin: "0px 0px -10% 0px" }}
+      transition={{ duration: tipo === "cortina" ? 1.1 : 0.9, ease: tipo === "cortina" ? easePreciso : easeSalida, delay: retraso }}
       className={className}
       {...resto}
     >
@@ -36,153 +38,66 @@ export function Revelar({
 }
 
 /**
- * Título que aparece palabra por palabra, como deslizándose desde abajo.
- * Los lectores de pantalla leen el texto completo de una sola vez.
- * alCargar = true (hero): animación CSS inmediata, mejor para la velocidad de carga.
+ * "Foco" de luz ámbar muy suave que sigue al cursor, como la luz LED de los muebles.
+ * Va dentro de una sección oscura con `relative overflow-hidden`.
+ * En celular (o con movimiento reducido) queda como un resplandor fijo.
  */
-export function TituloRevelado({
-  texto,
-  como: Etiqueta = "h2",
-  className,
-  retraso = 0,
-  alCargar = false,
-  id,
+export function Foco({
+  inicial = { x: 0.78, y: 0.22 },
+  intensidad = 1,
 }: {
-  id?: string;
-  texto: string;
-  como?: "h1" | "h2" | "h3";
-  className?: string;
-  retraso?: number;
-  alCargar?: boolean;
-}) {
-  const palabras = texto.split(" ");
-  const espacio = (i: number) => (i < palabras.length - 1 ? "\u00A0" : "");
-  const mascara = "inline-block overflow-hidden pb-[0.12em] -mb-[0.12em] align-bottom";
-
-  if (alCargar) {
-    return (
-      <Etiqueta id={id} className={className}>
-        <span className="sr-only">{texto}</span>
-        <span aria-hidden="true" className="block">
-          {palabras.map((palabra, i) => (
-            <span key={i} className={mascara}>
-              <span
-                className="entrar entrar-palabra inline-block"
-                style={{ "--retraso": `${retraso + i * 0.06}s` } as React.CSSProperties}
-              >
-                {palabra}
-                {espacio(i)}
-              </span>
-            </span>
-          ))}
-        </span>
-      </Etiqueta>
-    );
-  }
-
-  return (
-    <Etiqueta id={id} className={className}>
-      <span className="sr-only">{texto}</span>
-      <motion.span
-        aria-hidden="true"
-        initial="oculto"
-        whileInView="visible"
-        viewport={{ once: true, margin: "0px 0px -10% 0px" }}
-        transition={{ staggerChildren: 0.06, delayChildren: retraso }}
-        className="block"
-      >
-        {palabras.map((palabra, i) => (
-          <span key={i} className={mascara}>
-            <motion.span
-              className="inline-block"
-              variants={{
-                oculto: { y: "105%", opacity: 0 },
-                visible: { y: "0%", opacity: 1, transition: { duration: 0.9, ease } },
-              }}
-            >
-              {palabra}
-              {espacio(i)}
-            </motion.span>
-          </span>
-        ))}
-      </motion.span>
-    </Etiqueta>
-  );
-}
-
-/**
- * Efecto magnético sutil: el botón sigue un poco al puntero (solo con mouse).
- * className reemplaza al "inline-block" por defecto (para poder usar hidden, etc.).
- */
-export function Magnetico({
-  children,
-  fuerza = 0.25,
-  className,
-}: {
-  children: React.ReactNode;
-  fuerza?: number;
-  className?: string;
+  inicial?: { x: number; y: number };
+  /** 1 = normal. Menos sobre fondos de color (salvia) para que no se ensucie. */
+  intensidad?: number;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const reducir = useReducedMotion();
   const x = useMotionValue(0);
   const y = useMotionValue(0);
-  const sx = useSpring(x, { stiffness: 220, damping: 18, mass: 0.4 });
-  const sy = useSpring(y, { stiffness: 220, damping: 18, mass: 0.4 });
+  const sx = useSpring(x, { stiffness: 90, damping: 22, mass: 0.6 });
+  const sy = useSpring(y, { stiffness: 90, damping: 22, mass: 0.6 });
 
-  function mover(e: React.PointerEvent<HTMLDivElement>) {
-    if (reducir || e.pointerType !== "mouse" || !ref.current) return;
-    const r = ref.current.getBoundingClientRect();
-    x.set((e.clientX - (r.left + r.width / 2)) * fuerza);
-    y.set((e.clientY - (r.top + r.height / 2)) * fuerza);
-  }
+  useEffect(() => {
+    const capa = ref.current;
+    const seccion = capa?.parentElement;
+    if (!capa || !seccion) return;
 
-  function soltar() {
-    x.set(0);
-    y.set(0);
-  }
+    const ubicarInicial = () => {
+      const r = seccion.getBoundingClientRect();
+      x.jump(r.width * inicial.x);
+      y.jump(Math.min(r.height * inicial.y, 420));
+    };
+    ubicarInicial();
 
-  return (
-    <motion.div
-      ref={ref}
-      onPointerMove={mover}
-      onPointerLeave={soltar}
-      style={{ x: sx, y: sy }}
-      className={className ?? "inline-block"}
-    >
-      {children}
-    </motion.div>
-  );
-}
+    const puntoFino = window.matchMedia("(pointer: fine)").matches;
+    if (!puntoFino || reducir) {
+      window.addEventListener("resize", ubicarInicial);
+      return () => window.removeEventListener("resize", ubicarInicial);
+    }
 
-/**
- * Parallax suave: la imagen se mueve un poco más lento que el scroll.
- * La capa interna es más alta que el marco, así nunca se ven los bordes.
- */
-export function Parallax({
-  children,
-  intensidad = 0.1,
-  className,
-}: {
-  children: React.ReactNode;
-  intensidad?: number;
-  className?: string;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const desplazamiento = `${intensidad * 100}%`;
-  // El % de translate se mide sobre la capa (más alta que el marco), por eso se ajusta.
-  const recorrido = `${((intensidad / (1 + 2 * intensidad)) * 100).toFixed(2)}%`;
-  const y = useTransform(scrollYProgress, [0, 1], [`-${recorrido}`, recorrido]);
+    const mover = (e: PointerEvent) => {
+      const r = seccion.getBoundingClientRect();
+      x.set(e.clientX - r.left);
+      y.set(e.clientY - r.top);
+    };
+    seccion.addEventListener("pointermove", mover);
+    seccion.addEventListener("pointerleave", ubicarInicial);
+    return () => {
+      seccion.removeEventListener("pointermove", mover);
+      seccion.removeEventListener("pointerleave", ubicarInicial);
+    };
+  }, [inicial.x, inicial.y, reducir, x, y]);
 
   return (
-    <div ref={ref} className={`relative overflow-hidden ${className ?? ""}`}>
+    <div ref={ref} aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
       <motion.div
-        style={{ y, top: `-${desplazamiento}`, bottom: `-${desplazamiento}` }}
-        className="absolute inset-x-0 will-change-transform"
-      >
-        {children}
-      </motion.div>
+        style={{
+          x: sx,
+          y: sy,
+          background: `radial-gradient(closest-side, rgb(232 169 79 / ${0.16 * intensidad}), rgb(232 169 79 / ${0.05 * intensidad}) 55%, transparent)`,
+        }}
+        className="absolute -left-[22rem] -top-[22rem] size-[44rem] will-change-transform"
+      />
     </div>
   );
 }
