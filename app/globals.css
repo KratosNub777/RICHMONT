@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+/*
+ * Los valores de los colores vienen de data/sitio.ts (se inyectan en <head>).
+ * Acá solo se conectan con Tailwind: bg-hueso, text-negro, border-roble, etc.
+ */
+@theme inline {
+  --color-hueso: var(--hueso);
+  --color-arena: var(--arena);
+  --color-greige: var(--greige);
+  --color-salvia: var(--salvia);
+  --color-salvia-texto: var(--salviaTexto);
+  --color-roble: var(--roble);
+  --color-roble-texto: var(--robleTexto);
+  --color-ambar: var(--ambar);
+  --color-carbon: var(--carbon);
+  --color-grafito: var(--grafito);
+  --color-negro: var(--negro);
+
+  --font-display: var(--font-titulos);
+  --font-sans: var(--font-texto);
+
+  /* Escala tipográfica fluida (de 360px a 1440px) */
+  --text-display: clamp(2.6rem, 1.45rem + 5.2vw, 6.4rem);
+  --text-display--line-height: 0.98;
+  --text-display--letter-spacing: -0.035em;
+  --text-titulo: clamp(2rem, 1.35rem + 2.9vw, 4rem);
+  --text-titulo--line-height: 1.04;
+  --text-titulo--letter-spacing: -0.03em;
+  --text-subtitulo: clamp(1.25rem, 1.08rem + 0.75vw, 1.75rem);
+  --text-subtitulo--line-height: 1.25;
+  --text-subtitulo--letter-spacing: -0.015em;
+  --text-cuerpo: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+  --text-cuerpo--line-height: 1.65;
+  --text-etiqueta: 0.75rem;
+  --text-etiqueta--line-height: 1.2;
+  --text-etiqueta--letter-spacing: 0.18em;
+
+  --ease-mueble: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    scroll-padding-top: 5rem;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background: var(--hueso);
+    color: var(--grafito);
+    font-family: var(--font-texto), system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background: var(--ambar);
+    color: var(--negro);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ambar);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* En secciones claras el ámbar no contrasta: el foco usa el negro mate. */
+  .tono-claro :focus-visible {
+    outline-color: var(--negro);
+  }
+}
