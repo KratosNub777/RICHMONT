@@ -7,6 +7,7 @@ import Testimonios from "@/components/Testimonios";
 import Presupuesto from "@/components/Presupuesto";
 import Contacto from "@/components/Contacto";
 import Transicion from "@/components/Transicion";
+import WhatsappFlotante from "@/components/WhatsappFlotante";
 
 export default function Inicio() {
   return (
@@ -25,6 +26,7 @@ export default function Inicio() {
         <Transicion de="greige" a="grafito" />
       </main>
       <Contacto />
+      <WhatsappFlotante />
     </>
   );
 }
