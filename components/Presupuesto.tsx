@@ -1,36 +1,34 @@
 "use client";
 
 import { useId, useRef, useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
 import { contacto, linkWhatsapp, presupuestoTextos } from "@/data/sitio";
-import { useConsulta } from "./ConsultaContext";
+import { Magnetico, Revelar, TituloRevelado } from "./movimiento";
 import { Etiqueta, IconoWhatsapp } from "./ui";
 
 type Errores = Partial<Record<"nombre" | "espacio", string>>;
 
-function armarMensaje(datos: { nombre: string; espacio: string; medidas: string; mensaje: string; proyecto?: string }) {
+function armarMensaje(datos: { nombre: string; espacio: string; medidas: string; mensaje: string }) {
   const lineas = [
     "¡Hola Richmont! Quiero pedir un presupuesto.",
     "",
     `• Nombre: ${datos.nombre}`,
     `• Espacio: ${datos.espacio}`,
   ];
-  if (datos.proyecto) lineas.push(`• Proyecto de referencia: ${datos.proyecto}`);
   if (datos.medidas) lineas.push(`• Medidas aproximadas: ${datos.medidas}`);
   if (datos.mensaje) lineas.push("", datos.mensaje);
   return lineas.join("\n");
 }
 
-const campo = "campo";
+const campo =
+  "mt-2 block w-full rounded-none border-0 border-b border-negro/25 bg-transparent px-0 py-3 text-base text-negro placeholder:text-carbon/80 transition-colors focus:border-negro focus:outline-none focus:ring-0 aria-[invalid=true]:border-[#9B2C1F]";
 const etiqueta = "block text-sm font-semibold text-grafito";
 
 export default function Presupuesto() {
   const id = useId();
-  const { proyecto, elegirProyecto } = useConsulta();
   const formRef = useRef<HTMLFormElement>(null);
   const [errores, setErrores] = useState<Errores>({});
-  const [enlacePreparado, setEnlacePreparado] = useState<{ href: string; proyectoId: string | null } | null>(null);
-
-  const enlaceActual = enlacePreparado && enlacePreparado.proyectoId === (proyecto?.id ?? null) ? enlacePreparado.href : null;
+  const [enlaceEnviado, setEnlaceEnviado] = useState<string | null>(null);
 
   function enviar(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -40,7 +38,6 @@ export default function Presupuesto() {
       espacio: String(fd.get("espacio") ?? "").trim(),
       medidas: String(fd.get("medidas") ?? "").trim(),
       mensaje: String(fd.get("mensaje") ?? "").trim(),
-      proyecto: proyecto ? `${proyecto.titulo} (${proyecto.categoria})` : undefined,
     };
 
     const nuevos: Errores = {};
@@ -55,55 +52,55 @@ export default function Presupuesto() {
     }
 
     const enlace = linkWhatsapp(armarMensaje(datos));
-    setEnlacePreparado({ href: enlace, proyectoId: proyecto?.id ?? null });
-    window.open(enlace, "_blank", "noopener,noreferrer");
+    setEnlaceEnviado(enlace);
+    // Con "noopener" window.open siempre devuelve null, así que se corta el vínculo a mano.
+    const ventana = window.open(enlace, "_blank");
+    if (ventana) ventana.opener = null;
+    else window.location.href = enlace; // si el navegador bloqueó la pestaña nueva
   }
 
   return (
     <section
       id="presupuesto"
-      tabIndex={-1}
       aria-labelledby="titulo-presupuesto"
-      className="tono-claro bg-arena/60"
+      className="tono-claro"
+      style={{ background: "linear-gradient(180deg, var(--arena) 0%, var(--greige) 100%)" }}
     >
-      <div className="contenedor seccion grid gap-7 lg:grid-cols-12 lg:gap-12">
+      <div className="mx-auto grid max-w-[90rem] gap-12 px-5 py-20 sm:px-8 md:py-28 lg:grid-cols-12 lg:gap-10 lg:px-12 lg:py-36">
         <div className="lg:col-span-5">
-          <div>
+          <Revelar>
             <Etiqueta>{presupuestoTextos.etiqueta}</Etiqueta>
-          </div>
-          <h2 id="titulo-presupuesto" className="mt-4 font-display text-titulo font-semibold text-negro">{presupuestoTextos.titulo}</h2>
-          <div>
-            <p className="mt-5 max-w-md text-cuerpo text-grafito">{presupuestoTextos.intro}</p>
-            <p className="mt-4 text-sm text-grafito">
+          </Revelar>
+          <TituloRevelado
+            id="titulo-presupuesto"
+            texto={presupuestoTextos.titulo}
+            className="mt-6 font-display text-titulo font-semibold text-negro text-balance"
+          />
+          <Revelar retraso={0.15}>
+            <p className="mt-7 max-w-md text-cuerpo text-grafito">{presupuestoTextos.intro}</p>
+            <p className="mt-8 text-sm text-grafito">
               ¿Preferís escribir directo?{" "}
               <a
                 href={linkWhatsapp()}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="nav-link inline-flex items-center font-semibold text-negro underline decoration-roble underline-offset-4"
+                className="whitespace-nowrap font-semibold text-negro underline decoration-roble decoration-2 underline-offset-4 hover:decoration-negro"
               >
                 WhatsApp {contacto.whatsappVisible}
                 <span className="sr-only">(abre WhatsApp)</span>
               </a>
             </p>
-          </div>
+          </Revelar>
         </div>
 
-        <div className="lg:col-span-7">
+        <Revelar retraso={0.1} className="lg:col-span-6 lg:col-start-7">
           <form
             ref={formRef}
             onSubmit={enviar}
             noValidate
-            onChange={() => setEnlacePreparado(null)}
-            className="min-w-0 rounded-md border border-negro/15 bg-hueso p-5 sm:p-7"
+            className="rounded-sm bg-hueso p-6 shadow-[0_30px_80px_-40px] shadow-negro/40 sm:p-10"
           >
-            {proyecto && <div className="mb-6 rounded-md border border-roble/40 bg-arena/50 p-4" role="status">
-              <p className="text-xs font-semibold uppercase tracking-wider text-roble-texto">Proyecto de referencia</p>
-              <p className="mt-2 font-semibold">{proyecto.titulo}</p>
-              <p className="mt-1 text-sm text-carbon">{proyecto.categoria}</p>
-              <button type="button" className="nav-link mt-1 text-sm underline underline-offset-4" onClick={() => { elegirProyecto(null); setEnlacePreparado(null); }}>Quitar referencia</button>
-            </div>}
-            <div className="grid gap-5 sm:grid-cols-2">
+            <div className="grid gap-8 sm:grid-cols-2">
               <div>
                 <label htmlFor={`${id}-nombre`} className={etiqueta}>
                   Nombre <span aria-hidden="true">*</span>
@@ -169,7 +166,7 @@ export default function Presupuesto() {
                   id={`${id}-medidas`}
                   name="medidas"
                   type="text"
-                  placeholder="Ej.: 3 × 2 m"
+                  placeholder="Ej.: pared de 3,20 m de largo × 2,40 m de alto"
                   className={campo}
                 />
               </div>
@@ -181,33 +178,51 @@ export default function Presupuesto() {
                 <textarea
                   id={`${id}-mensaje`}
                   name="mensaje"
-                  rows={3}
-                  placeholder="Tu idea o lo que necesitás resolver"
+                  rows={4}
+                  placeholder="Contanos qué te gustaría: estilo, colores, qué necesitás guardar…"
                   className={`${campo} resize-y`}
                 />
               </div>
             </div>
 
-            <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <p className="text-xs text-carbon">* Campos obligatorios</p>
-              <div>
+              <Magnetico>
                 <button
                   type="submit"
-                  className="boton boton-oscuro w-full sm:w-auto"
+                  className="inline-flex w-full items-center justify-center gap-2.5 rounded-full bg-negro px-7 py-4 font-semibold text-hueso transition-colors hover:bg-salvia-texto sm:w-auto"
                 >
                   <IconoWhatsapp />
                   {presupuestoTextos.boton}
                 </button>
-              </div>
+              </Magnetico>
             </div>
 
             <div aria-live="polite">
-              {enlaceActual && <p className="mt-5 border-t border-negro/10 pt-4 text-sm leading-relaxed">
-                Mensaje preparado. Revisalo y terminá de enviarlo en WhatsApp. Si no se abrió, <a href={enlaceActual} target="_blank" rel="noopener noreferrer" className="nav-link inline-flex font-semibold underline underline-offset-4">abrir el mensaje en WhatsApp</a>.
-              </p>}
+              <AnimatePresence>
+                {enlaceEnviado && (
+                  <motion.p
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    className="mt-6 border-t border-negro/10 pt-5 text-sm text-grafito"
+                  >
+                    Listo: te abrimos WhatsApp con tu mensaje. ¿No se abrió?{" "}
+                    <a
+                      href={enlaceEnviado}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-semibold text-negro underline decoration-roble underline-offset-4"
+                    >
+                      Tocá acá
+                    </a>
+                    .
+                  </motion.p>
+                )}
+              </AnimatePresence>
             </div>
           </form>
-        </div>
+        </Revelar>
       </div>
     </section>
   );

@@ -6,21 +6,27 @@ import Proceso from "@/components/Proceso";
 import Testimonios from "@/components/Testimonios";
 import Presupuesto from "@/components/Presupuesto";
 import Contacto from "@/components/Contacto";
-import { ConsultaProvider } from "@/components/ConsultaContext";
+import Transicion from "@/components/Transicion";
+import WhatsappFlotante from "@/components/WhatsappFlotante";
 
 export default function Inicio() {
   return (
-    <ConsultaProvider>
+    <>
       <Header />
-      <main id="contenido" tabIndex={-1}>
+      <main id="contenido">
         <Hero />
-        <Trabajos />
+        <Transicion de="negro" a="hueso" />
         <Nosotros />
+        <Trabajos />
+        <Transicion de="hueso" a="grafito" />
         <Proceso />
+        <Transicion de="negro" a="hueso" />
         <Testimonios />
         <Presupuesto />
+        <Transicion de="greige" a="grafito" />
       </main>
       <Contacto />
-    </ConsultaProvider>
+      <WhatsappFlotante />
+    </>
   );
 }
