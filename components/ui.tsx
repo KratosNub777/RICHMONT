@@ -15,6 +15,11 @@ export function Etiqueta({ children, oscuro = false }: { children: React.ReactNo
   );
 }
 
+/** Marcador visible para datos que todavía no se cargaron (no se inventa nada). */
+export function Marcador({ children = "Pendiente" }: { children?: React.ReactNode }) {
+  return <span className="marcador inline-block max-w-full">{children}</span>;
+}
+
 /**
  * Logo de Richmont.
  * - "claro": para fondos oscuros (el logo original, blanco).

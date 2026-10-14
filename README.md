@@ -1,62 +1,76 @@
-# Richmont Furniture
+# Richmont Furniture: página web
 
-Web de muebles a medida en Paraguay: Next.js, React y Tailwind CSS. Mantiene WhatsApp **0994 153 494** (`595994153494`) e Instagram [@richmontpy](https://www.instagram.com/richmontpy/).
+Web oficial de **Richmont Furniture** (muebles a medida, Paraguay · [@richmontpy](https://www.instagram.com/richmontpy/)).
+Hecha con Next.js, Tailwind CSS y Motion. Está lista para publicarse gratis en Vercel.
 
-## Desarrollo y comprobaciones
+## Cómo correrla en tu computadora
 
-```sh
-npm ci
-npm run dev
-npm run typecheck
-npm run build
+1. Instalá [Node.js](https://nodejs.org) (versión 20.9 o más nueva).
+2. En una terminal, dentro de la carpeta del proyecto:
+   ```bash
+   npm install      # solo la primera vez
+   npm run dev      # abre la web en http://localhost:3000
+   ```
+3. Los cambios que guardes se ven al instante en el navegador.
+
+Antes de publicar podés comprobar que todo compile con `npm run build` y `npm run lint`.
+
+## Qué editar y dónde
+
+| Quiero cambiar…                                    | Archivo / carpeta                     |
+| -------------------------------------------------- | ------------------------------------- |
+| Colores, textos, WhatsApp, email, horarios, logo   | `data/sitio.ts`                       |
+| Títulos y descripciones de las fotos               | `data/trabajos.ts`                    |
+| Fotos de los trabajos                              | `public/trabajos/<espacio>/`          |
+| Logo                                               | `public/logo/` + `data/sitio.ts`      |
+
+### Fotos de trabajos
+
+- Copiá las fotos a la carpeta del espacio: `cocinas`, `living`, `placares`, `exterior` u `otros`.
+- **Aparecen solas en la galería.** El título se arma con el nombre del archivo
+  (`cocina-blanca.jpg` → "Cocina blanca").
+- Si querés un título o una descripción mejor, agregá la foto en `data/trabajos.ts` (hay un ejemplo).
+- Formatos: JPG, PNG, WEBP o AVIF. Subilas en buena calidad: la web las optimiza sola.
+- Mientras un espacio no tenga fotos, se muestran recuadros con la leyenda **"Foto pendiente"**.
+
+### Foto de portada (hero)
+
+En `data/sitio.ts`, dentro de `hero`, completá `foto` (por ejemplo `"/trabajos/cocinas/cocina-01.jpg"`)
+y `fotoAlt` con una descripción breve de la foto.
+
+### Logo
+
+1. Copiá el archivo (ideal SVG o PNG con fondo transparente) a `public/logo/`.
+2. En `data/sitio.ts`, completá `marca.logo` con la ruta y su tamaño real en píxeles:
+   `{ src: "/logo/richmont.svg", ancho: 600, alto: 180 }`.
+3. Sobre fondos claros, la web lo oscurece automáticamente con un filtro, sin modificar ni deformar el original.
+4. Opcional: reemplazá `app/icon.svg` (el ícono de la pestaña) por el isotipo real.
+
+### Datos pendientes
+
+Email, Facebook, dirección, ciudad y horarios están en `null` dentro de `data/sitio.ts`.
+Mientras sigan así, la web muestra un marcador **"Pendiente"**. Al completarlos, también se agregan
+automáticamente a los datos para Google. Los testimonios se cargan en la lista `testimonios` del mismo archivo
+(solo opiniones reales, con permiso del cliente).
+
+## Publicarla en Vercel (gratis)
+
+1. Entrá a [vercel.com](https://vercel.com) y registrate con tu cuenta de GitHub.
+2. **Add New → Project** → elegí el repositorio `RICHMONT` → **Deploy**.
+   No hace falta configurar nada: Vercel detecta Next.js solo.
+3. En un minuto te da un link del tipo `https://richmont-xxxx.vercel.app` para compartir.
+4. Cada vez que subas cambios a GitHub, la web se actualiza sola.
+
+Si después compran un dominio propio (por ejemplo `richmont.com.py`), se conecta en
+**Settings → Domains** de Vercel. Además, agregá la variable `NEXT_PUBLIC_SITE_URL` con esa dirección
+en **Settings → Environment Variables** para que Google y las redes usen el dominio correcto.
+
+## Estructura del código
+
 ```
-
-Pruebas de navegador y accesibilidad en 320, 390, 768, 1024 y 1440 px:
-
-```sh
-npx playwright install chromium
-npm run test:e2e
+app/            página, layout (SEO, fuentes), sitemap, robots, imagen para compartir
+components/     cada sección de la página (Hero, Trabajos, Proceso, Presupuesto…)
+data/           textos, colores y lista de trabajos: lo que se edita seguido
+lib/            utilidades (lectura de la galería, scroll suave, URL del sitio)
+public/         logo y fotos
 ```
-
-Si Chromium ya está instalado, se puede usar sin descargar otro navegador:
-
-```sh
-PLAYWRIGHT_CHROMIUM_EXECUTABLE=/usr/bin/chromium npm run test:e2e
-```
-
-Los tests interceptan WhatsApp: no envían consultas ni abren conversaciones reales. La galería se prueba con patrones técnicos y proyectos ficticios **solo en una ruta temporal de QA**. El servidor de pruebas usa el puerto 3100 y `.next-qa`, separado de desarrollo. La ruta `app/qa-richmont/` se elimina al detener el servidor. No debe existir antes de compilar producción.
-
-## Contenido confirmado
-
-- `data/sitio.ts`: identidad, textos, contactos y opiniones autorizadas.
-- `data/trabajos.ts`: proyectos revisados y sus fotografías.
-- `public/trabajos/<categoría>/`: archivos JPG, JPEG, PNG, WEBP o AVIF.
-- `public/logo/`: logo cuando se disponga del original.
-
-Los datos `null` se omiten; los testimonios vacíos se ocultan. El repositorio actual no contiene fotos de proyectos, logo ni opiniones. Por eso muestra una portada tipográfica compacta y una galería vacía con acciones útiles.
-
-## Publicar proyectos reales
-
-1. Copiar las fotos autorizadas a `public/trabajos/<categoría>/`.
-2. Agregar un proyecto a `trabajos` en `data/trabajos.ts` con un `id` único, `titulo`, `espacio` y `fotos`.
-3. Cada foto requiere `src`, `alt` descriptivo y dimensiones originales `ancho`/`alto` en píxeles.
-4. Agregar `descripcion`, `materiales` y `terminaciones` únicamente si están confirmados. Los campos opcionales ausentes no aparecen.
-5. Revisar visualmente cada foto en móvil y escritorio antes de publicar.
-
-La primera fotografía es la portada de la tarjeta. No se recorta el producto: las imágenes se ajustan con `object-contain`. Se generan tamaños de imagen adaptados al dispositivo y se difiere la carga de las tarjetas. Las rutas inexistentes o sin información accesible se excluyen. Copiar un archivo por sí solo no lo publica: hay que revisar e incluir explícitamente el proyecto. Así se evita inferir títulos, atribución o datos a partir del nombre de un archivo.
-
-Solo aparecen categorías con proyectos válidos. Los contadores cuentan proyectos, no fotos; se muestran seis proyectos por tanda. El visor puede recorrer todas las fotos del filtro actual. “Quiero algo similar” adjunta una referencia independiente sin cambiar ningún campo del formulario.
-
-La primera foto del primer proyecto válido se usa también en la portada. Se puede elegir otra foto real en `hero.foto` de `data/sitio.ts`, con el mismo formato de datos. La foto principal tiene carga prioritaria, conserva proporciones y se presenta separada del texto.
-
-## Contacto y opiniones
-
-Completar solo datos confirmados: ciudad, dirección, cobertura, horarios, email, Facebook y Maps. Un enlace a Maps se muestra con la ubicación cuando esta tiene texto confirmado. Las opiniones requieren permiso para publicar texto y atribución.
-
-El formulario prepara un enlace a WhatsApp; la persona revisa y termina de enviar el mensaje allí. No hay envío desde la web ni confirmación de recepción.
-
-## Publicación en Vercel
-
-El proyecto conserva su configuración de Next.js y su repositorio. Publicar mediante la integración existente de Vercel. `NEXT_PUBLIC_SITE_URL` permite configurar el dominio canónico; en Vercel se utiliza también `VERCEL_PROJECT_PRODUCTION_URL` cuando está disponible.
-
-Ver la entrega y los pendientes en [docs/ENTREGA.md](docs/ENTREGA.md).

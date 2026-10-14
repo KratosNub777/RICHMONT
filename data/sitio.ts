@@ -4,10 +4,11 @@
  * Acá están los colores, los textos principales y los datos de contacto.
  * Cambiá lo que necesites y guardá: la web se actualiza sola.
  *
- * Los datos ausentes se omiten de la vista pública. Nunca se inventa información.
+ * Todo lo que dice PENDIENTE se muestra en la web con un marcador visible
+ * hasta que lo completes. Nunca se inventa información.
  */
 
-/** Valor no confirmado: se omite de la vista pública. */
+/** Valor que todavía falta completar. Se muestra como marcador en la web. */
 export const PENDIENTE = null;
 
 // ------------------------------------------------------------------
@@ -60,8 +61,6 @@ export const contacto = {
   facebook: PENDIENTE as string | null, // link completo de la página
   direccion: PENDIENTE as string | null,
   ciudad: PENDIENTE as string | null,
-  cobertura: PENDIENTE as string | null,
-  maps: PENDIENTE as string | null,
   horarios: PENDIENTE as string | null, // ej: "Lunes a viernes de 8:00 a 17:00"
 };
 
@@ -79,50 +78,112 @@ export const linkInstagram = `https://www.instagram.com/${contacto.instagram}/`;
 // TEXTOS
 // ------------------------------------------------------------------
 export const navegacion = [
-  { href: "#trabajos", texto: "Trabajos" },
   { href: "#nosotros", texto: "Nosotros" },
-  { href: "#proceso", texto: "Cómo consultar" },
+  { href: "#trabajos", texto: "Trabajos" },
+  { href: "#proceso", texto: "Cómo trabajamos" },
   { href: "#presupuesto", texto: "Presupuesto" },
   { href: "#contacto", texto: "Contacto" },
 ];
 
 export const hero = {
   etiqueta: "Muebles a medida · Paraguay",
-  titulo: "Muebles pensados para tu espacio",
-  subtitulo: "Diseñamos y fabricamos muebles a medida para hogares, departamentos y oficinas en Paraguay.",
+  titulo: "Diseño a medida que transforma tus espacios",
+  /*
+   * Variantes para probar (copiá una en `titulo`):
+   *  - "Muebles que encajan con tu forma de vivir"
+   *  - "Cada centímetro, pensado para vos"
+   */
+  subtitulo:
+    "Diseñamos y fabricamos muebles a medida para hogares, departamentos y oficinas. Líneas limpias, materiales nobles y detalles bien resueltos.",
   botonTrabajos: "Ver trabajos",
   botonPresupuesto: "Pedir presupuesto",
-  // Solo una foto real de un proyecto terminado. Dimensiones originales en píxeles.
-  foto: null as import("./trabajos").FotoTrabajo | null,
+  /** Foto de portada. Ej: "/trabajos/cocinas/cocina-01.jpg". null = sin foto todavía. */
+  foto: null as string | null,
+  fotoAlt: "",
 };
 
 export const nosotros = {
-  etiqueta: "Nosotros",
-  titulo: "Richmont Furniture",
-  intro: "Somos una empresa de muebles a medida en Paraguay. Diseñamos y fabricamos mobiliario para adaptar cada proyecto al espacio y a las necesidades de quien lo usa.",
-  espacios: ["Hogares", "Departamentos", "Oficinas"],
+  etiqueta: "Por qué Richmont",
+  titulo: "Muebles hechos para tu espacio, no al revés",
+  intro:
+    "Cada proyecto empieza por escucharte: cómo usás el espacio, qué necesitás guardar y cómo te gusta vivirlo. A partir de ahí diseñamos y fabricamos piezas únicas.",
+  pilares: [
+    {
+      icono: "diseno",
+      titulo: "Diseño personalizado",
+      texto:
+        "Cada mueble se diseña desde cero según tus medidas, tus gustos y la forma en que usás tu espacio.",
+    },
+    {
+      icono: "materiales",
+      titulo: "Materiales de alta calidad",
+      texto:
+        "Elegimos materiales, herrajes y terminaciones que se ven bien hoy y siguen firmes con el uso diario.",
+    },
+    {
+      icono: "durabilidad",
+      titulo: "Funcionalidad y durabilidad",
+      texto:
+        "Pensamos cada cajón, puerta y estante para que sea cómodo, práctico y dure muchos años.",
+    },
+    {
+      icono: "espacios",
+      titulo: "Hogares, departamentos y oficinas",
+      texto:
+        "Proyectos a medida para cada tipo de espacio: desde una cocina completa hasta el mobiliario de tu oficina.",
+    },
+  ],
 };
 
 export const trabajosTextos = {
   etiqueta: "Trabajos",
-  titulo: "Conocé nuestro trabajo",
-  intro: "Elegí un proyecto y tocá su foto para verlo en detalle.",
-  verMas: "Visitar Instagram",
+  titulo: "Espacios que ya transformamos",
+  intro: "Filtrá por tipo de espacio y tocá una foto para verla en grande.",
+  verMas: "Ver más en Instagram",
 };
 
-// Describe el recorrido disponible en la web; no promete condiciones comerciales.
+// Revisá con el equipo que estos pasos describan bien cómo trabajan.
 export const proceso = {
-  etiqueta: "Cómo consultar",
-  titulo: "Tu idea empieza acá",
+  etiqueta: "Cómo trabajamos",
+  titulo: "De la idea al mueble instalado",
+  intro: "Un proceso claro, con vos en cada decisión.",
   pasos: [
-    { titulo: "Contanos qué necesitás", texto: "Elegí el tipo de espacio y compartí tu idea en el formulario." },
-    { titulo: "Sumá los detalles", texto: "Si tenés medidas aproximadas o referencias, incluilas en la consulta." },
-    { titulo: "Continuá en WhatsApp", texto: "Revisá el mensaje preparado y envialo allí para conversar con Richmont." },
+    {
+      titulo: "Consulta",
+      texto:
+        "Nos escribís por WhatsApp, nos contás qué necesitás y empezamos a darle forma a la idea.",
+    },
+    {
+      titulo: "Medidas",
+      texto:
+        "Definimos las medidas exactas del espacio para que cada pieza encaje con precisión.",
+    },
+    {
+      titulo: "Diseño",
+      texto:
+        "Te proponemos el diseño: distribución, materiales, colores y herrajes, hasta que quede como lo imaginaste.",
+    },
+    {
+      titulo: "Fabricación",
+      texto:
+        "Fabricamos cada mueble cuidando cada unión, cada canto y cada terminación.",
+    },
+    {
+      titulo: "Instalación",
+      texto:
+        "Instalamos todo en tu espacio y lo dejamos listo para que empieces a disfrutarlo.",
+    },
   ],
 };
 
-/** Solo opiniones reales con autorización para publicar texto y atribución. */
+/**
+ * TESTIMONIOS: agregá opiniones REALES de clientes (con su permiso).
+ * Mientras la lista esté vacía, la web muestra marcadores "pendiente".
+ * Ejemplo:
+ *   { texto: "…", nombre: "Nombre A.", detalle: "Cocina a medida · Asunción" },
+ */
 export const testimonios: { texto: string; nombre: string; detalle?: string }[] = [];
+
 export const testimoniosTextos = {
   etiqueta: "Testimonios",
   titulo: "Lo que dicen nuestros clientes",
@@ -132,7 +193,7 @@ export const presupuestoTextos = {
   etiqueta: "Presupuesto",
   titulo: "Contanos tu proyecto",
   intro:
-    "Completá estos datos para preparar tu consulta. Vas a revisar y terminar de enviar el mensaje en WhatsApp.",
+    "Completá estos datos y te abrimos WhatsApp con el mensaje listo para enviar. Sin compromiso.",
   tiposDeEspacio: [
     "Cocina",
     "Living / comedor",
@@ -143,11 +204,11 @@ export const presupuestoTextos = {
     "Oficina",
     "Otro",
   ],
-  boton: "Continuar en WhatsApp",
+  boton: "Enviar por WhatsApp",
 };
 
 export const contactoTextos = {
   etiqueta: "Contacto",
   titulo: "Hablemos de tu próximo mueble",
-  intro: "Podés consultar por WhatsApp o encontrarnos en Instagram.",
+  intro: "La forma más rápida de contactarnos es por WhatsApp.",
 };
