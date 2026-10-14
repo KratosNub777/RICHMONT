@@ -80,9 +80,9 @@ export const linkInstagram = `https://www.instagram.com/${contacto.instagram}/`;
 // TEXTOS
 // ------------------------------------------------------------------
 export const navegacion = [
-  { href: "#nosotros", texto: "Nosotros" },
   { href: "#trabajos", texto: "Trabajos" },
-  { href: "#proceso", texto: "Cómo trabajamos" },
+  { href: "#nosotros", texto: "Nosotros" },
+  { href: "#proceso", texto: "Cómo consultar" },
   { href: "#presupuesto", texto: "Presupuesto" },
   { href: "#contacto", texto: "Contacto" },
 ];
