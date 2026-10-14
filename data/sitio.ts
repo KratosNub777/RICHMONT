@@ -89,19 +89,12 @@ export const navegacion = [
 
 export const hero = {
   etiqueta: "Muebles a medida · Paraguay",
-  titulo: "Diseño a medida que transforma tus espacios",
-  /*
-   * Variantes para probar (copiá una en `titulo`):
-   *  - "Muebles que encajan con tu forma de vivir"
-   *  - "Cada centímetro, pensado para vos"
-   */
-  subtitulo:
-    "Diseñamos y fabricamos muebles a medida para hogares, departamentos y oficinas. Líneas limpias, materiales nobles y detalles bien resueltos.",
+  titulo: "Muebles pensados para tu espacio",
+  subtitulo: "Diseñamos y fabricamos muebles a medida para hogares, departamentos y oficinas en Paraguay.",
   botonTrabajos: "Ver trabajos",
   botonPresupuesto: "Pedir presupuesto",
-  /** Foto de portada. Ej: "/trabajos/cocinas/cocina-01.jpg". null = sin foto todavía. */
-  foto: null as string | null,
-  fotoAlt: "",
+  // Solo una foto real de un proyecto terminado. Dimensiones originales en píxeles.
+  foto: null as import("./trabajos").FotoTrabajo | null,
 };
 
 export const nosotros = {
