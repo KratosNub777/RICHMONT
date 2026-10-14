@@ -61,6 +61,8 @@ export const contacto = {
   facebook: PENDIENTE as string | null, // link completo de la página
   direccion: PENDIENTE as string | null,
   ciudad: PENDIENTE as string | null,
+  cobertura: PENDIENTE as string | null,
+  maps: PENDIENTE as string | null,
   horarios: PENDIENTE as string | null, // ej: "Lunes a viernes de 8:00 a 17:00"
 };
 
