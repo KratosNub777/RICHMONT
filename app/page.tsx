@@ -1,3 +1,4 @@
+import { ConsultaProvider } from "@/components/ConsultaContext";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Nosotros from "@/components/Nosotros";
@@ -11,7 +12,7 @@ import WhatsappFlotante from "@/components/WhatsappFlotante";
 
 export default function Inicio() {
   return (
-    <>
+    <ConsultaProvider>
       <Header />
       <main id="contenido">
         <Hero />
@@ -27,6 +28,6 @@ export default function Inicio() {
       </main>
       <Contacto />
       <WhatsappFlotante />
-    </>
+    </ConsultaProvider>
   );
 }
