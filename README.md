@@ -26,6 +26,16 @@ PLAYWRIGHT_CHROMIUM_EXECUTABLE=/usr/bin/chromium npm run test:e2e
 
 Los tests interceptan WhatsApp: no envían consultas ni abren conversaciones reales. La galería se prueba con patrones técnicos y proyectos ficticios **solo en una ruta temporal de QA**. El servidor de pruebas usa el puerto 3100 y `.next-qa`, separado de desarrollo. La ruta `app/qa-richmont/` se elimina al detener el servidor. No debe existir antes de compilar producción.
 
+## Verificar el CSS de producción y el despliegue
+
+`npm run build` verifica que la portada compilada incluya las reglas esenciales de diseño. Para comprobar también lo que está sirviendo un despliegue:
+
+```sh
+PLAYWRIGHT_CHROMIUM_EXECUTABLE=/usr/bin/chromium npm run verify:site -- https://richmont-drab.vercel.app/
+```
+
+Si se usa el Chromium instalado por Playwright, omitir la variable del ejecutable. El comando guarda capturas e informe en `test-results/production/` y devuelve un error si el navegador recibe estilos incompletos, detecta desbordamiento, errores de consola o infracciones de accesibilidad. Ver [la corrección del CSS publicado](docs/CORRECCION-CSS.md).
+
 ## Contenido confirmado
 
 - `data/sitio.ts`: identidad, textos, contactos y opiniones autorizadas.
