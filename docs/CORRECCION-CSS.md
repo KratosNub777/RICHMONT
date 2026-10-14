@@ -8,7 +8,7 @@ La comprobación local anterior usó una compilación limpia y no detectó el ar
 
 - Se reemplaza el loader `@tailwindcss/turbopack` por `@tailwindcss/postcss`, la integración indicada en la documentación instalada de Next.js.
 - La compilación de producción usa Webpack con PostCSS para separar sus artefactos de los del pipeline anterior de Turbopack. Desarrollo y QA usan Turbopack con PostCSS.
-- `npm run build` comprueba las hojas de estilo que referencia la portada compilada. Falla si faltan las reglas esenciales; no acepta fragmentos antiguos que hayan quedado en el directorio de compilación.
+- `npm run build` comprueba las hojas de estilo que referencia el manifiesto cliente de la portada, tanto si existe HTML prerenderizado como si Next.js utiliza SSR. Falla si faltan las reglas esenciales; no acepta fragmentos antiguos que hayan quedado en el directorio de compilación.
 - `npm run verify:site -- <URL>` abre la URL real en Chromium y comprueba estilos calculados, márgenes, botones, campos, tipografía, desbordamiento, consola y accesibilidad en cinco anchos. Guarda capturas y un informe JSON.
 - La suite de QA deja de borrar su caché al iniciar, para que las pruebas no oculten fallos de invalidación.
 
@@ -21,3 +21,7 @@ La comprobación local anterior usó una compilación limpia y no detectó el ar
 - Suite funcional: 29 pruebas aprobadas y una omitida porque el menú móvil no corresponde en 1440 px.
 
 La publicación en Vercel debe verificarse con `verify:site` después de incorporar esta corrección. Una compilación local correcta por sí sola no confirma el estado de la web pública.
+
+## Compatibilidad con Vercel
+
+El primer despliegue de prueba de la corrección falló porque la comprobación nueva asumía la presencia de `.next/server/app/index.html`. Se corrigió para leer `page_client-reference-manifest.js`, que identifica el CSS de la portada sin depender de un archivo HTML prerenderizado. Se verificó expresamente retirando temporalmente `index.html`: la comprobación aprobó usando el manifiesto y el archivo se restauró.
