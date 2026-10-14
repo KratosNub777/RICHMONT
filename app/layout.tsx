@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Sora } from "next/font/google";
 import { colores, contacto, linkInstagram, marca } from "@/data/sitio";
 import { urlSitio } from "@/lib/url";
-import Proveedores from "@/components/Proveedores";
 import "./globals.css";
 
 const titulos = Sora({
@@ -106,8 +105,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         >
           Saltar al contenido
         </a>
-        <Proveedores>{children}</Proveedores>
-        <div className="grano" aria-hidden="true" />
+        {children}
       </body>
     </html>
   );
