@@ -4,11 +4,10 @@
  * Acá están los colores, los textos principales y los datos de contacto.
  * Cambiá lo que necesites y guardá: la web se actualiza sola.
  *
- * Todo lo que dice PENDIENTE se muestra en la web con un marcador visible
- * hasta que lo completes. Nunca se inventa información.
+ * Los datos ausentes se omiten de la vista pública. Nunca se inventa información.
  */
 
-/** Valor que todavía falta completar. Se muestra como marcador en la web. */
+/** Valor no confirmado: se omite de la vista pública. */
 export const PENDIENTE = null;
 
 // ------------------------------------------------------------------
@@ -106,12 +105,12 @@ export const nosotros = {
 
 export const trabajosTextos = {
   etiqueta: "Trabajos",
-  titulo: "Espacios que ya transformamos",
-  intro: "Filtrá por tipo de espacio y tocá una foto para verla en grande.",
-  verMas: "Ver más en Instagram",
+  titulo: "Conocé nuestro trabajo",
+  intro: "Elegí un proyecto y tocá su foto para verlo en detalle.",
+  verMas: "Visitar Instagram",
 };
 
-// Revisá con el equipo que estos pasos describan bien cómo trabajan.
+// Describe el recorrido disponible en la web; no promete condiciones comerciales.
 export const proceso = {
   etiqueta: "Cómo consultar",
   titulo: "Tu idea empieza acá",
@@ -124,7 +123,6 @@ export const proceso = {
 
 /** Solo opiniones reales con autorización para publicar texto y atribución. */
 export const testimonios: { texto: string; nombre: string; detalle?: string }[] = [];
-
 export const testimoniosTextos = {
   etiqueta: "Testimonios",
   titulo: "Lo que dicen nuestros clientes",
@@ -151,5 +149,5 @@ export const presupuestoTextos = {
 export const contactoTextos = {
   etiqueta: "Contacto",
   titulo: "Hablemos de tu próximo mueble",
-  intro: "La forma más rápida de contactarnos es por WhatsApp.",
+  intro: "Podés consultar por WhatsApp o encontrarnos en Instagram.",
 };
