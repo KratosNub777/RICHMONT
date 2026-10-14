@@ -134,7 +134,7 @@ export const presupuestoTextos = {
   etiqueta: "Presupuesto",
   titulo: "Contanos tu proyecto",
   intro:
-    "Completá estos datos y te abrimos WhatsApp con el mensaje listo para enviar. Sin compromiso.",
+    "Completá estos datos para preparar tu consulta. Vas a revisar y terminar de enviar el mensaje en WhatsApp.",
   tiposDeEspacio: [
     "Cocina",
     "Living / comedor",
@@ -145,7 +145,7 @@ export const presupuestoTextos = {
     "Oficina",
     "Otro",
   ],
-  boton: "Enviar por WhatsApp",
+  boton: "Continuar en WhatsApp",
 };
 
 export const contactoTextos = {
