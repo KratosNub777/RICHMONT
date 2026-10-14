@@ -113,44 +113,16 @@ export const trabajosTextos = {
 
 // Revisá con el equipo que estos pasos describan bien cómo trabajan.
 export const proceso = {
-  etiqueta: "Cómo trabajamos",
-  titulo: "De la idea al mueble instalado",
-  intro: "Un proceso claro, con vos en cada decisión.",
+  etiqueta: "Cómo consultar",
+  titulo: "Tu idea empieza acá",
   pasos: [
-    {
-      titulo: "Consulta",
-      texto:
-        "Nos escribís por WhatsApp, nos contás qué necesitás y empezamos a darle forma a la idea.",
-    },
-    {
-      titulo: "Medidas",
-      texto:
-        "Definimos las medidas exactas del espacio para que cada pieza encaje con precisión.",
-    },
-    {
-      titulo: "Diseño",
-      texto:
-        "Te proponemos el diseño: distribución, materiales, colores y herrajes, hasta que quede como lo imaginaste.",
-    },
-    {
-      titulo: "Fabricación",
-      texto:
-        "Fabricamos cada mueble cuidando cada unión, cada canto y cada terminación.",
-    },
-    {
-      titulo: "Instalación",
-      texto:
-        "Instalamos todo en tu espacio y lo dejamos listo para que empieces a disfrutarlo.",
-    },
+    { titulo: "Contanos qué necesitás", texto: "Elegí el tipo de espacio y compartí tu idea en el formulario." },
+    { titulo: "Sumá los detalles", texto: "Si tenés medidas aproximadas o referencias, incluilas en la consulta." },
+    { titulo: "Continuá en WhatsApp", texto: "Revisá el mensaje preparado y envialo allí para conversar con Richmont." },
   ],
 };
 
-/**
- * TESTIMONIOS: agregá opiniones REALES de clientes (con su permiso).
- * Mientras la lista esté vacía, la web muestra marcadores "pendiente".
- * Ejemplo:
- *   { texto: "…", nombre: "Nombre A.", detalle: "Cocina a medida · Asunción" },
- */
+/** Solo opiniones reales con autorización para publicar texto y atribución. */
 export const testimonios: { texto: string; nombre: string; detalle?: string }[] = [];
 
 export const testimoniosTextos = {
