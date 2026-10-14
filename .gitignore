@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# QA local
+/.next-qa/
+/playwright-report/
+/test-results/
+/app/qa-richmont/
