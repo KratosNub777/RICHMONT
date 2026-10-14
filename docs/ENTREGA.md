@@ -50,7 +50,3 @@ El repositorio contiene únicamente `.gitkeep` en `public/trabajos/` y `public/l
 - La verificación de navegador usa Chromium con anchos de escritorio y móvil; no sustituye una prueba en dispositivos físicos ni en Safari/iOS.
 - No se envían mensajes reales. Se verifica la URL, el destino, el contenido decodificado y el comportamiento cuando se bloquea una pestaña. La recepción en WhatsApp depende del usuario y del servicio externo.
 - Los cambios se entregan en una rama del repositorio para revisión mediante un PR. No se ha publicado una nueva versión en `richmont-drab.vercel.app`; el enlace público seguirá mostrando la versión anterior hasta desplegar estos cambios mediante la integración existente de Vercel.
-
-## Revisión del despliegue posterior a la entrega
-
-Se detectó que Vercel servía CSS anterior con los componentes nuevos. Las comprobaciones locales descritas arriba no detectaron ese artefacto publicado. Ver [la causa observada, la corrección y las pruebas adicionales](CORRECCION-CSS.md).
