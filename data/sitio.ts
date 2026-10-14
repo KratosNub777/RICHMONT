@@ -98,36 +98,10 @@ export const hero = {
 };
 
 export const nosotros = {
-  etiqueta: "Por qué Richmont",
-  titulo: "Muebles hechos para tu espacio, no al revés",
-  intro:
-    "Cada proyecto empieza por escucharte: cómo usás el espacio, qué necesitás guardar y cómo te gusta vivirlo. A partir de ahí diseñamos y fabricamos piezas únicas.",
-  pilares: [
-    {
-      icono: "diseno",
-      titulo: "Diseño personalizado",
-      texto:
-        "Cada mueble se diseña desde cero según tus medidas, tus gustos y la forma en que usás tu espacio.",
-    },
-    {
-      icono: "materiales",
-      titulo: "Materiales de alta calidad",
-      texto:
-        "Elegimos materiales, herrajes y terminaciones que se ven bien hoy y siguen firmes con el uso diario.",
-    },
-    {
-      icono: "durabilidad",
-      titulo: "Funcionalidad y durabilidad",
-      texto:
-        "Pensamos cada cajón, puerta y estante para que sea cómodo, práctico y dure muchos años.",
-    },
-    {
-      icono: "espacios",
-      titulo: "Hogares, departamentos y oficinas",
-      texto:
-        "Proyectos a medida para cada tipo de espacio: desde una cocina completa hasta el mobiliario de tu oficina.",
-    },
-  ],
+  etiqueta: "Nosotros",
+  titulo: "Richmont Furniture",
+  intro: "Somos una empresa de muebles a medida en Paraguay. Diseñamos y fabricamos mobiliario para adaptar cada proyecto al espacio y a las necesidades de quien lo usa.",
+  espacios: ["Hogares", "Departamentos", "Oficinas"],
 };
 
 export const trabajosTextos = {
