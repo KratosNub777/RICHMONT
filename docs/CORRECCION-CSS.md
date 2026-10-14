@@ -7,6 +7,7 @@ La comprobación local anterior usó una compilación limpia y no detectó el ar
 ## Corrección
 
 - Se reemplaza el loader `@tailwindcss/turbopack` por `@tailwindcss/postcss`, la integración indicada en la documentación instalada de Next.js.
+- La compilación de producción usa Webpack con PostCSS para separar sus artefactos de los del pipeline anterior de Turbopack. Desarrollo y QA usan Turbopack con PostCSS.
 - `npm run build` comprueba las hojas de estilo que referencia la portada compilada. Falla si faltan las reglas esenciales; no acepta fragmentos antiguos que hayan quedado en el directorio de compilación.
 - `npm run verify:site -- <URL>` abre la URL real en Chromium y comprueba estilos calculados, márgenes, botones, campos, tipografía, desbordamiento, consola y accesibilidad en cinco anchos. Guarda capturas y un informe JSON.
 - La suite de QA deja de borrar su caché al iniciar, para que las pruebas no oculten fallos de invalidación.
