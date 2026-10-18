@@ -153,3 +153,44 @@ de Tailwind sin probar `npm run build && npm run start`.
   desplegar. Este punto es una sospecha, no está confirmado en el panel.
 - Si una foto o cambio no aparece en la web publicada: revisar en el panel de Vercel que el último despliegue sea del
   último commit y que no esté bloqueado; después, recarga forzada (Ctrl+Shift+R).
+
+## Cómo trabajar con git (obligatorio)
+
+### Autor de los commits
+
+Todos los commits van a nombre del dueño del repositorio:
+
+```bash
+git config user.name  "KratosNub777"
+git config user.email "facundovera0702@gmail.com"
+```
+
+Verificá con `git config user.name && git config user.email` **antes del primer commit** de cada sesión y, si no
+coincide, configurala (solo para este repo, sin `--global`). No uses otro nombre ni correo, y no cambies el autor
+de commits ya publicados.
+
+### Muchos commits pequeños
+
+- **Un commit = un cambio lógico y chico.** Si un trabajo toca varias cosas, se divide en varios commits.
+- Hacé commit **a medida que avanzás**, no al final: cada paso que compila y tiene sentido por sí solo, se commitea.
+- Qué va separado:
+  - agregar fotos a una carpeta (`public/trabajos/<espacio>/`) **separado** de registrarlas en `data/trabajos.ts`;
+  - cambios de textos/datos (`data/sitio.ts`) separados de cambios de código o de estilos;
+  - un componente por commit; refactors separados de funcionalidades nuevas;
+  - documentación (`README.md`, `CLAUDE.md`) en su propio commit.
+- Para fotos: como mucho unas 3–5 por commit (por ejemplo, "Agregar 4 fotos de cocinas en roble claro").
+- Usá `git add <archivos concretos>`; nunca `git add .` ni `git add -A` sin mirar antes `git status`.
+- Mensajes: en español, en imperativo y cortos (menos de ~70 caracteres), que digan qué cambió. Ejemplos del
+  historial: "Rediseñar botón flotante de WhatsApp", "Agregar franja de materiales con marquee lento".
+- Antes de commitear código: `npm run lint`. Antes de hacer push de varios commits: `npm run build`.
+- Se trabaja y se hace push en `main` (`git push -u origin main`). No se abren pull requests a menos que el dueño
+  lo pida. Nunca reescribir el historial de `main` (sin `--force`) sin permiso explícito.
+
+## Qué falta completar (no inventar)
+
+- Logo: copiar a `public/logo/` y completar `marca.logo` (`src`, `ancho`, `alto`).
+- Email, Facebook, dirección, ciudad y horarios en `contacto` (hoy `null`).
+- Testimonios reales de clientes (con su permiso) en `testimonios`.
+- Foto de portada en `hero.foto`.
+- Fotos de `exterior` y `otros`.
+- Revisar con el equipo que los pasos de `proceso` describan cómo trabajan realmente.
