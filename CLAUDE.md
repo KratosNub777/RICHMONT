@@ -86,9 +86,13 @@ Para cambiar un texto, un dato de contacto o un color se edita ese archivo, no e
 2. Primero van las fotos declaradas en `data/trabajos.ts` (en ese orden, con su título, `alt` y `formato`).
 3. Después las que están en la carpeta pero no en el archivo: el título sale del nombre del archivo
    (`cocina-blanca.jpg` → "Cocina blanca").
-4. Si un espacio no tiene **ninguna** foto, se muestran 2 recuadros "Foto pendiente" (`FotoPendiente.tsx`).
-5. `Trabajos.tsx` (servidor) pasa los datos a `GaleriaTrabajos.tsx` (cliente): filtros por espacio, mosaico con
-   `grid-flow-dense` y `Lightbox.tsx` (visor a pantalla completa con teclado, swipe y foco atrapado).
+4. Los espacios sin fotos no aparecen en los filtros (`Trabajos.tsx` los descarta) y no se generan recuadros vacíos.
+5. `Trabajos.tsx` (servidor) pasa los datos a `GaleriaTrabajos.tsx` (cliente): filtros por espacio con contador,
+   mosaico con `grid-flow-dense` y `Lightbox.tsx` (visor a pantalla completa con teclado, swipe y foco atrapado).
+6. **Mostrar más:** al inicio se ven 6 fotos y el botón "Mostrar más (+6)" suma 6 por clic (constante `PASO` en
+   `GaleriaTrabajos.tsx`). Al cambiar de filtro vuelve a 6 y el botón desaparece cuando ya se ven todas. El lightbox
+   recorre todas las fotos del filtro, no solo las visibles. Mismo comportamiento que la web de referencia
+   https://mausa.vercel.app/.
 
 `formato` define el tamaño en el mosaico: `vertical` = 2 filas, `horizontal` = 2 columnas, `cuadrado` = 1×1.
 Usá `vertical` para fotos de celular verticales y `horizontal` para las apaisadas.
@@ -97,7 +101,8 @@ Para agregar fotos: copiarlas a `public/trabajos/<espacio>/` con un **nombre des
 "WhatsApp Image…") y, mejor aún, registrarlas en `data/trabajos.ts`. Espacios válidos: `cocinas`, `living`,
 `placares`, `exterior`, `otros` (la lista está en `espacios`, mismo archivo).
 
-Estado actual: 25 fotos (16 cocinas, 2 living, 7 placares). `exterior` y `otros` aún muestran "Foto pendiente".
+Estado actual: 25 fotos (16 cocinas, 2 living, 7 placares). `exterior` y `otros` no tienen fotos todavía, por eso
+no aparecen como filtro; cuando se agregue una foto a esas carpetas, el filtro aparece solo.
 
 ### Imágenes
 
