@@ -7,6 +7,8 @@ import { Etiqueta, IconoInstagram } from "./ui";
 export default function Trabajos() {
   // Se lee al construir la web: fotos de public/trabajos/ + data/trabajos.ts
   const items = obtenerGaleria();
+  // Los espacios sin fotos no aparecen en los filtros.
+  const conFotos = espacios.filter((e) => items.some((i) => i.espacio === e.carpeta));
 
   return (
     <section id="trabajos" aria-labelledby="titulo-trabajos" className="tono-claro fondo-claro-inverso">
@@ -25,7 +27,7 @@ export default function Trabajos() {
           </Revelar>
         </div>
 
-        <GaleriaTrabajos items={items} espacios={espacios.map((e) => ({ ...e }))} />
+        <GaleriaTrabajos items={items} espacios={conFotos.map((e) => ({ ...e }))} />
 
         <Revelar className="mt-14 flex justify-center">
           <a
