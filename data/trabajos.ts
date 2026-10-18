@@ -205,6 +205,13 @@ export const trabajos: Trabajo[] = [
     alt: "Cocina blanca con alacenas altas, mesada de granito negro y bacha con grifería cromada",
     formato: "vertical",
   },
+  {
+    src: "/trabajos/cocinas/cocina-roble-claro-en-l.jpg",
+    espacio: "cocinas",
+    titulo: "Cocina roble claro con barra",
+    alt: "Cocina en roble claro con mesada de granito negro que se extiende como barra",
+    formato: "vertical",
+  },
 ];
 
 /**
