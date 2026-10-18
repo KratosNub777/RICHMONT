@@ -177,6 +177,34 @@ export const trabajos: Trabajo[] = [
     alt: "Placard blanco de frentes lisos junto a un vestidor con estantes y cajones",
     formato: "vertical",
   },
+  {
+    src: "/trabajos/cocinas/cocina-blanca-luz-led-ventanal.jpg",
+    espacio: "cocinas",
+    titulo: "Cocina blanca junto al ventanal",
+    alt: "Cocina blanca con luz LED, mueble auxiliar abierto y gran ventanal de vidrio",
+    formato: "horizontal",
+  },
+  {
+    src: "/trabajos/cocinas/cocina-roble-claro-frente.jpg",
+    espacio: "cocinas",
+    titulo: "Cocina roble claro",
+    alt: "Cocina en melamina roble claro con alacenas, estante abierto y mesada de granito negro",
+    formato: "vertical",
+  },
+  {
+    src: "/trabajos/placares/vestidor-estantes-cajones.jpg",
+    espacio: "placares",
+    titulo: "Vestidor con estantes y cajones",
+    alt: "Vestidor blanco con estantes, cajones y barrales a distintas alturas",
+    formato: "vertical",
+  },
+  {
+    src: "/trabajos/cocinas/cocina-blanca-alacenas.jpg",
+    espacio: "cocinas",
+    titulo: "Cocina blanca con alacenas",
+    alt: "Cocina blanca con alacenas altas, mesada de granito negro y bacha con grifería cromada",
+    formato: "vertical",
+  },
 ];
 
 /**
