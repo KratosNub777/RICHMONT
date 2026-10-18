@@ -31,7 +31,8 @@ Antes de publicar podés comprobar que todo compile con `npm run build` y `npm r
   (`cocina-blanca.jpg` → "Cocina blanca").
 - Si querés un título o una descripción mejor, agregá la foto en `data/trabajos.ts` (hay un ejemplo).
 - Formatos: JPG, PNG, WEBP o AVIF. Subilas en buena calidad: la web las optimiza sola.
-- Mientras un espacio no tenga fotos, se muestran recuadros con la leyenda **"Foto pendiente"**.
+- Un espacio sin fotos no aparece en los filtros de la galería. Al sumarle la primera foto, aparece solo.
+- La galería muestra 6 fotos y un botón **"Mostrar más (+6)"**. Se cambia con `PASO` en `components/GaleriaTrabajos.tsx`.
 
 ### Foto de portada (hero)
 

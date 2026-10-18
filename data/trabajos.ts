@@ -213,9 +213,3 @@ export const trabajos: Trabajo[] = [
     formato: "vertical",
   },
 ];
-
-/**
- * Cuántos espacios "Foto pendiente" se muestran por carpeta mientras no haya
- * fotos reales. Cuando una carpeta tiene al menos una foto, se dejan de mostrar.
- */
-export const marcadoresPorEspacio = 2;
