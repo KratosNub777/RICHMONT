@@ -65,6 +65,34 @@ export const trabajos: Trabajo[] = [
     alt: "Cocina compacta en melamina madera clara con mesada de granito negro y campana",
     formato: "horizontal",
   },
+  {
+    src: "/trabajos/cocinas/cocina-roble-claro-peninsula.jpg",
+    espacio: "cocinas",
+    titulo: "Cocina roble claro con península",
+    alt: "Cocina en melamina roble claro con tiradores de aluminio, anafe y península de granito",
+    formato: "vertical",
+  },
+  {
+    src: "/trabajos/living/panel-tv-madera.jpg",
+    espacio: "living",
+    titulo: "Panel de TV en madera",
+    alt: "Panel de TV en madera con mueble bajo flotante de tres puertas",
+    formato: "vertical",
+  },
+  {
+    src: "/trabajos/cocinas/cocina-blanca-luz-led-frente.jpg",
+    espacio: "cocinas",
+    titulo: "Cocina blanca con luz LED",
+    alt: "Cocina blanca a medida con luz LED bajo las alacenas, mesada de granito negro y mueble abierto",
+    formato: "horizontal",
+  },
+  {
+    src: "/trabajos/placares/placard-tres-puertas.jpg",
+    espacio: "placares",
+    titulo: "Placard de tres puertas",
+    alt: "Placard blanco de tres puertas con tiradores de aluminio, de piso a techo",
+    formato: "vertical",
+  },
 ];
 
 /**
