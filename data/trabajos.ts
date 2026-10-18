@@ -121,6 +121,34 @@ export const trabajos: Trabajo[] = [
     alt: "Cocina blanca con alacenas escalonadas, luz LED y mueble auxiliar abierto",
     formato: "vertical",
   },
+  {
+    src: "/trabajos/cocinas/cocina-en-l-granito-claro.jpg",
+    espacio: "cocinas",
+    titulo: "Cocina en L amplia",
+    alt: "Cocina en L con alacenas blancas, botellero, cajones y mesada de granito claro",
+    formato: "horizontal",
+  },
+  {
+    src: "/trabajos/placares/vestidor-cajones.jpg",
+    espacio: "placares",
+    titulo: "Vestidor con cajones",
+    alt: "Vestidor blanco con cajones de corredera, estantes y barral central",
+    formato: "vertical",
+  },
+  {
+    src: "/trabajos/cocinas/cocina-madera-clara.jpg",
+    espacio: "cocinas",
+    titulo: "Cocina madera clara con campana",
+    alt: "Cocina en madera clara con alacenas, campana y mueble bajo con tres cajones",
+    formato: "vertical",
+  },
+  {
+    src: "/trabajos/cocinas/cocina-roble-claro-lateral.jpg",
+    espacio: "cocinas",
+    titulo: "Cocina roble claro en L",
+    alt: "Cocina en L en melamina roble claro con alacenas, estante abierto y mesada de granito",
+    formato: "horizontal",
+  },
 ];
 
 /**
