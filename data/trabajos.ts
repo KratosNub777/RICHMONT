@@ -93,6 +93,34 @@ export const trabajos: Trabajo[] = [
     alt: "Placard blanco de tres puertas con tiradores de aluminio, de piso a techo",
     formato: "vertical",
   },
+  {
+    src: "/trabajos/cocinas/cocina-granito-claro-alacenas.jpg",
+    espacio: "cocinas",
+    titulo: "Cocina en L con granito claro",
+    alt: "Cocina en L con alacenas blancas, muebles bajos en melamina y mesada de granito claro",
+    formato: "vertical",
+  },
+  {
+    src: "/trabajos/cocinas/cocina-blanca-cajones-abiertos.jpg",
+    espacio: "cocinas",
+    titulo: "Cajones con correderas",
+    alt: "Mueble bajo blanco con cajones de corredera telescópica y mesada de granito negro",
+    formato: "horizontal",
+  },
+  {
+    src: "/trabajos/placares/placard-interior-cajonera.jpg",
+    espacio: "placares",
+    titulo: "Placard con interior a medida",
+    alt: "Interior de placard con estantes, barrales y cajonera, organizado a medida",
+    formato: "vertical",
+  },
+  {
+    src: "/trabajos/cocinas/cocina-blanca-esquina-led.jpg",
+    espacio: "cocinas",
+    titulo: "Cocina blanca en esquina",
+    alt: "Cocina blanca con alacenas escalonadas, luz LED y mueble auxiliar abierto",
+    formato: "vertical",
+  },
 ];
 
 /**
