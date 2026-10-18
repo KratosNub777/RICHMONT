@@ -149,6 +149,34 @@ export const trabajos: Trabajo[] = [
     alt: "Cocina en L en melamina roble claro con alacenas, estante abierto y mesada de granito",
     formato: "horizontal",
   },
+  {
+    src: "/trabajos/placares/vestidor-estantes-esquina.jpg",
+    espacio: "placares",
+    titulo: "Vestidor en esquina",
+    alt: "Vestidor blanco en esquina con estantes de piso a techo y barral",
+    formato: "vertical",
+  },
+  {
+    src: "/trabajos/cocinas/cocina-blanca-cajones.jpg",
+    espacio: "cocinas",
+    titulo: "Cocina blanca minimalista",
+    alt: "Cocina blanca de frentes lisos, bacha simple y cajonera, con mesada de granito negro",
+    formato: "vertical",
+  },
+  {
+    src: "/trabajos/cocinas/cocina-roble-claro-cubertero.jpg",
+    espacio: "cocinas",
+    titulo: "Cajón con cubertero",
+    alt: "Cajón de cocina en roble claro con cubertero interno y anafe de vidrio",
+    formato: "vertical",
+  },
+  {
+    src: "/trabajos/placares/placard-blanco-vestidor.jpg",
+    espacio: "placares",
+    titulo: "Placard y vestidor",
+    alt: "Placard blanco de frentes lisos junto a un vestidor con estantes y cajones",
+    formato: "vertical",
+  },
 ];
 
 /**
