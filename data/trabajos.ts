@@ -37,14 +37,34 @@ export type Trabajo = {
 };
 
 export const trabajos: Trabajo[] = [
-  // Ejemplo (borrá las barras // para usarlo):
-  // {
-  //   src: "/trabajos/cocinas/cocina-blanca.jpg",
-  //   espacio: "cocinas",
-  //   titulo: "Cocina blanca con isla",
-  //   alt: "Cocina blanca a medida con isla central, tiradores negros y luz LED bajo las alacenas",
-  //   formato: "horizontal",
-  // },
+  {
+    src: "/trabajos/living/rack-tv-nogal.jpg",
+    espacio: "living",
+    titulo: "Rack de TV en nogal",
+    alt: "Rack de TV flotante en melamina color nogal, con nicho central y cajones",
+    formato: "horizontal",
+  },
+  {
+    src: "/trabajos/cocinas/cocina-blanca-granito-negro.jpg",
+    espacio: "cocinas",
+    titulo: "Cocina blanca con granito negro",
+    alt: "Cocina blanca a medida con mesada de granito negro, bacha simple y alacenas hasta el techo",
+    formato: "vertical",
+  },
+  {
+    src: "/trabajos/placares/vestidor-estantes-blanco.jpg",
+    espacio: "placares",
+    titulo: "Vestidor con estantes",
+    alt: "Vestidor blanco a medida con estantes, barral para colgar y cajones",
+    formato: "vertical",
+  },
+  {
+    src: "/trabajos/cocinas/cocina-madera-clara-ventanal.jpg",
+    espacio: "cocinas",
+    titulo: "Cocina en madera clara",
+    alt: "Cocina compacta en melamina madera clara con mesada de granito negro y campana",
+    formato: "horizontal",
+  },
 ];
 
 /**
