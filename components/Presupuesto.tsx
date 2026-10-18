@@ -101,7 +101,7 @@ export default function Presupuesto() {
             className="rounded-sm bg-hueso p-6 shadow-[0_30px_80px_-40px] shadow-negro/40 sm:p-10"
           >
             <div className="grid gap-8 sm:grid-cols-2">
-              <div>
+              <div className="sm:col-span-2">
                 <label htmlFor={`${id}-nombre`} className={etiqueta}>
                   Nombre <span aria-hidden="true">*</span>
                 </label>
@@ -124,39 +124,39 @@ export default function Presupuesto() {
                 )}
               </div>
 
-              <div>
-                <label htmlFor={`${id}-espacio`} className={etiqueta}>
+              <fieldset
+                role="radiogroup"
+                className="sm:col-span-2"
+                aria-required="true"
+                aria-describedby={errores.espacio ? `${id}-espacio-error` : undefined}
+              >
+                <legend className={etiqueta}>
                   Tipo de espacio <span aria-hidden="true">*</span>
-                </label>
-                <select
-                  id={`${id}-espacio`}
-                  name="espacio"
-                  required
-                  aria-required="true"
-                  defaultValue=""
-                  aria-invalid={!!errores.espacio}
-                  aria-describedby={errores.espacio ? `${id}-espacio-error` : undefined}
-                  className={`${campo} cursor-pointer appearance-none bg-[length:1rem] bg-[right_0.25rem_center] bg-no-repeat pr-8`}
-                  style={{
-                    backgroundImage:
-                      "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2317171A' stroke-width='1.8'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E\")",
-                  }}
-                >
-                  <option value="" disabled>
-                    Elegí una opción
-                  </option>
+                </legend>
+                <div className="mt-3 flex flex-wrap gap-2.5">
                   {presupuestoTextos.tiposDeEspacio.map((t) => (
-                    <option key={t} value={t}>
-                      {t}
-                    </option>
+                    <label key={t} className="cursor-pointer">
+                      <input
+                        type="radio"
+                        name="espacio"
+                        value={t}
+                        onChange={() => setErrores((e) => ({ ...e, espacio: undefined }))}
+                        className="peer sr-only"
+                      />
+                      <span className={`block rounded-full border px-4 py-2.5 text-sm font-semibold text-grafito transition-colors duration-300 hover:border-negro/60 peer-checked:border-negro peer-checked:bg-negro peer-checked:text-hueso peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-negro ${
+                          errores.espacio ? "border-[#9B2C1F]" : "border-negro/20"
+                        }`}>
+                        {t}
+                      </span>
+                    </label>
                   ))}
-                </select>
+                </div>
                 {errores.espacio && (
-                  <p id={`${id}-espacio-error`} className="mt-2 text-sm font-medium text-[#9B2C1F]">
+                  <p id={`${id}-espacio-error`} className="mt-3 text-sm font-medium text-[#9B2C1F]">
                     {errores.espacio}
                   </p>
                 )}
-              </div>
+              </fieldset>
 
               <div className="sm:col-span-2">
                 <label htmlFor={`${id}-medidas`} className={etiqueta}>
