@@ -54,3 +54,102 @@ public/
   trabajos/<espacio>/ Fotos reales: cocinas, living, placares, exterior, otros
   logo/               Logo (todavía vacío)
 ```
+
+## Cómo funciona
+
+### Orden de la página (`app/page.tsx`)
+
+`Header` → `Hero` → `Nosotros` → `Trabajos` → `Proceso` → `Testimonios` → `Presupuesto` → `Contacto` (footer) +
+`WhatsappFlotante`. Entre secciones de distinto color se usa `<Transicion de="…" a="…" />`, un degradado suave
+para que nunca haya un corte brusco claro/oscuro. Los `id` de ancla son `#inicio`, `#nosotros`, `#trabajos`,
+`#proceso`, `#presupuesto`, `#contacto` y coinciden con `navegacion` en `data/sitio.ts`.
+
+### Todo el contenido sale de `data/sitio.ts`
+
+Los componentes no tienen textos escritos a mano: importan de `data/sitio.ts` (`marca`, `contacto`, `hero`,
+`nosotros`, `trabajosTextos`, `proceso`, `testimonios`, `presupuestoTextos`, `contactoTextos`, `navegacion`).
+Para cambiar un texto, un dato de contacto o un color se edita ese archivo, no el componente.
+
+- **Colores:** `colores` se inyecta como variables CSS (`--hueso`, `--negro`, …) en un `<style>` del `<head>`
+  (`layout.tsx`) y `globals.css` las conecta con Tailwind (`bg-hueso`, `text-grafito`, `border-roble`…).
+  Para agregar un color: súmalo a `colores` y a `@theme inline` en `globals.css`.
+  Los colores `*Texto` son las versiones oscuras para texto chico sobre fondo claro (contraste AA).
+- **Datos pendientes:** `PENDIENTE` (`null`) marca lo que falta (email, Facebook, dirección, ciudad, horarios,
+  logo, testimonios). La web muestra un marcador visible ("Pendiente") en vez de inventar información. Nunca
+  inventes datos del negocio, reseñas ni fotos: dejá `null`.
+- **WhatsApp:** `linkWhatsapp(mensaje)` arma el `wa.me/…?text=…`. Número en `contacto.whatsappInternacional`.
+
+### Galería de trabajos
+
+1. `lib/galeria.ts` (`import "server-only"`) se ejecuta **al construir la web**: lee `public/trabajos/<espacio>/`
+   (jpg, jpeg, png, webp, avif) y devuelve `ItemGaleria[]`.
+2. Primero van las fotos declaradas en `data/trabajos.ts` (en ese orden, con su título, `alt` y `formato`).
+3. Después las que están en la carpeta pero no en el archivo: el título sale del nombre del archivo
+   (`cocina-blanca.jpg` → "Cocina blanca").
+4. Si un espacio no tiene **ninguna** foto, se muestran 2 recuadros "Foto pendiente" (`FotoPendiente.tsx`).
+5. `Trabajos.tsx` (servidor) pasa los datos a `GaleriaTrabajos.tsx` (cliente): filtros por espacio, mosaico con
+   `grid-flow-dense` y `Lightbox.tsx` (visor a pantalla completa con teclado, swipe y foco atrapado).
+
+`formato` define el tamaño en el mosaico: `vertical` = 2 filas, `horizontal` = 2 columnas, `cuadrado` = 1×1.
+Usá `vertical` para fotos de celular verticales y `horizontal` para las apaisadas.
+
+Para agregar fotos: copiarlas a `public/trabajos/<espacio>/` con un **nombre descriptivo** (nada de
+"WhatsApp Image…") y, mejor aún, registrarlas en `data/trabajos.ts`. Espacios válidos: `cocinas`, `living`,
+`placares`, `exterior`, `otros` (la lista está en `espacios`, mismo archivo).
+
+Estado actual: 25 fotos (16 cocinas, 2 living, 7 placares). `exterior` y `otros` aún muestran "Foto pendiente".
+
+### Imágenes
+
+Se usa siempre `next/image`. En `next.config.ts` está `images.qualities: [70, 80]`: **cualquier `quality` que se
+use en un `<Image>` tiene que estar en esa lista** o Next falla. La galería usa 70 y el hero 80. Formatos
+AVIF/WebP. Las fotos originales son de ~720p–960p (vienen de WhatsApp): para la portada hace falta una foto
+horizontal de 1920 px o más.
+
+### Hero (portada)
+
+`hero.foto` en `data/sitio.ts` está en `null`: mientras tanto se muestra una composición de luz LED animada. Si se
+completa `foto` (y `fotoAlt`), pasa a ser foto de fondo con parallax y degradados oscuros encima.
+
+### Presupuesto
+
+`Presupuesto.tsx` es un formulario del lado del cliente (nombre y tipo de espacio obligatorios; medidas y mensaje
+opcionales). Al enviar valida, arma un mensaje de texto y abre WhatsApp con `linkWhatsapp`. No se guarda nada.
+
+### Movimiento y scroll
+
+- `components/movimiento.tsx`: `Revelar`, `TituloRevelado`, `Magnetico`, `Parallax` (Motion).
+- `components/Proveedores.tsx`: inicia Lenis (scroll suave) y `MotionConfig reducedMotion="user"`. Si la persona
+  tiene activado "reducir movimiento", Lenis no se inicia y Motion baja las animaciones.
+- Siempre que se abra algo que tape la página (menú, lightbox) usá `bloquearScroll(true/false)` de `lib/lenis.ts`.
+  Para ir a una sección desde código usá `irA("#trabajos")`.
+- La curva de easing común es `[0.22, 1, 0.36, 1]` (clase `ease-mueble` en Tailwind).
+
+### SEO y compartir
+
+- `layout.tsx`: metadatos, Open Graph (`es_PY`), Twitter y JSON-LD `FurnitureStore` con solo datos confirmados.
+- `lib/url.ts`: la URL pública sale de `NEXT_PUBLIC_SITE_URL` o, en Vercel, de `VERCEL_PROJECT_PRODUCTION_URL`;
+  en local es `http://localhost:3000`. Si compran dominio propio, definir `NEXT_PUBLIC_SITE_URL` en Vercel.
+- `app/opengraph-image.tsx` genera la imagen para compartir con la paleta de la marca.
+
+### Accesibilidad (mantenerla)
+
+Enlace "Saltar al contenido", `aria-labelledby` en cada sección, foco visible (ámbar en oscuro, negro en
+`.tono-claro`), contraste AA, `alt` descriptivo en todas las fotos, lightbox con foco atrapado y cierre con Esc.
+
+### Tailwind y Turbopack
+
+`next.config.ts` define una regla de Turbopack para procesar `*.css` con `@tailwindcss/turbopack`. El repo tiene una
+rama `codex/corregir-css-produccion` que sugiere un problema de CSS en producción: no quites esa regla ni cambies la versión
+de Tailwind sin probar `npm run build && npm run start`.
+
+## Despliegue (Vercel)
+
+- Vercel despliega desde GitHub. Se asume que la rama de producción es `main` (confirmarlo en el panel de Vercel,
+  Settings → Git → Production Branch): cada push a esa rama debería generar un despliegue nuevo.
+- **Posible bloqueo por autor:** Vercel (sobre todo en el plan Hobby) puede no desplegar un commit cuyo **autor**
+  no es una cuenta de GitHub con acceso al proyecto. Por eso todos los commits deben ir con el autor de la sección
+  siguiente (`KratosNub777`, con el correo asociado a su GitHub). Un commit con otro autor puede quedar sin
+  desplegar. Este punto es una sospecha, no está confirmado en el panel.
+- Si una foto o cambio no aparece en la web publicada: revisar en el panel de Vercel que el último despliegue sea del
+  último commit y que no esté bloqueado; después, recarga forzada (Ctrl+Shift+R).
