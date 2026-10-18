@@ -118,8 +118,11 @@ completa `foto` (y `fotoAlt`), pasa a ser foto de fondo con parallax y degradado
 
 ### Presupuesto
 
-`Presupuesto.tsx` es un formulario del lado del cliente (nombre y tipo de espacio obligatorios; medidas y mensaje
-opcionales). Al enviar valida, arma un mensaje de texto y abre WhatsApp con `linkWhatsapp`. No se guarda nada.
+`Presupuesto.tsx` es un formulario del lado del cliente. Nombre y tipo de espacio son obligatorios; medidas y mensaje
+son opcionales. El tipo de espacio se elige con botones (radios con aspecto de pastilla, opciones en
+`presupuestoTextos.tiposDeEspacio`). Las medidas son tres campos numéricos en **centímetros** (largo, alto y fondo),
+cada uno de 1 a 4 dígitos enteros; si alguno es inválido se muestra el error. Al enviar valida, arma un mensaje de
+texto (ej.: "320 cm de largo × 240 cm de alto") y abre WhatsApp con `linkWhatsapp`. No se guarda nada.
 
 ### Movimiento y scroll
 

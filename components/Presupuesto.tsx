@@ -6,19 +6,26 @@ import { contacto, linkWhatsapp, presupuestoTextos } from "@/data/sitio";
 import { Magnetico, Revelar, TituloRevelado } from "./movimiento";
 import { Etiqueta, IconoWhatsapp } from "./ui";
 
-type Errores = Partial<Record<"nombre" | "espacio", string>>;
+type Errores = Partial<Record<"nombre" | "espacio" | "medidas", string>>;
 
-function armarMensaje(datos: { nombre: string; espacio: string; medidas: string; mensaje: string }) {
+function armarMensaje(datos: { nombre: string; espacio: string; medidas: string[]; mensaje: string }) {
   const lineas = [
     "¡Hola Richmont! Quiero pedir un presupuesto.",
     "",
     `• Nombre: ${datos.nombre}`,
     `• Espacio: ${datos.espacio}`,
   ];
-  if (datos.medidas) lineas.push(`• Medidas aproximadas: ${datos.medidas}`);
+  if (datos.medidas.length) lineas.push(`• Medidas aproximadas: ${datos.medidas.join(" × ")}`);
   if (datos.mensaje) lineas.push("", datos.mensaje);
   return lineas.join("\n");
 }
+
+// Medidas en centímetros: nombre del campo, etiqueta y cómo se escribe en el mensaje.
+const medidas = [
+  { name: "largo", etiqueta: "Largo", frase: "de largo", ejemplo: "320" },
+  { name: "alto", etiqueta: "Alto", frase: "de alto", ejemplo: "240" },
+  { name: "fondo", etiqueta: "Fondo", frase: "de fondo", ejemplo: "60" },
+] as const;
 
 const campo =
   "mt-2 block w-full rounded-none border-0 border-b border-negro/25 bg-transparent px-0 py-3 text-base text-negro placeholder:text-carbon/80 transition-colors focus:border-negro focus:outline-none focus:ring-0 aria-[invalid=true]:border-[#9B2C1F]";
@@ -36,22 +43,32 @@ export default function Presupuesto() {
     const datos = {
       nombre: String(fd.get("nombre") ?? "").trim(),
       espacio: String(fd.get("espacio") ?? "").trim(),
-      medidas: String(fd.get("medidas") ?? "").trim(),
+      medidas: medidas.map((m) => ({ ...m, valor: String(fd.get(m.name) ?? "").trim() })),
       mensaje: String(fd.get("mensaje") ?? "").trim(),
     };
 
     const nuevos: Errores = {};
     if (!datos.nombre) nuevos.nombre = "Escribí tu nombre.";
     if (!datos.espacio) nuevos.espacio = "Elegí el tipo de espacio.";
+    const medidaInvalida = datos.medidas.find((m) => m.valor && !/^[1-9]\d{0,3}$/.test(m.valor));
+    if (medidaInvalida) {
+      nuevos.medidas = "Escribí solo números enteros, en centímetros (por ejemplo 320).";
+    }
     setErrores(nuevos);
 
     const primero = Object.keys(nuevos)[0];
     if (primero) {
-      formRef.current?.querySelector<HTMLElement>(`[name="${primero}"]`)?.focus();
+      const campoConError = primero === "medidas" ? medidaInvalida?.name : primero;
+      formRef.current?.querySelector<HTMLElement>(`[name="${campoConError}"]`)?.focus();
       return;
     }
 
-    const enlace = linkWhatsapp(armarMensaje(datos));
+    const enlace = linkWhatsapp(
+      armarMensaje({
+        ...datos,
+        medidas: datos.medidas.filter((m) => m.valor).map((m) => `${m.valor} cm ${m.frase}`),
+      }),
+    );
     setEnlaceEnviado(enlace);
     // Con "noopener" window.open siempre devuelve null, así que se corta el vínculo a mano.
     const ventana = window.open(enlace, "_blank");
@@ -101,7 +118,7 @@ export default function Presupuesto() {
             className="rounded-sm bg-hueso p-6 shadow-[0_30px_80px_-40px] shadow-negro/40 sm:p-10"
           >
             <div className="grid gap-8 sm:grid-cols-2">
-              <div>
+              <div className="sm:col-span-2">
                 <label htmlFor={`${id}-nombre`} className={etiqueta}>
                   Nombre <span aria-hidden="true">*</span>
                 </label>
@@ -124,52 +141,84 @@ export default function Presupuesto() {
                 )}
               </div>
 
-              <div>
-                <label htmlFor={`${id}-espacio`} className={etiqueta}>
+              <fieldset
+                role="radiogroup"
+                className="sm:col-span-2"
+                aria-required="true"
+                aria-describedby={errores.espacio ? `${id}-espacio-error` : undefined}
+              >
+                <legend className={etiqueta}>
                   Tipo de espacio <span aria-hidden="true">*</span>
-                </label>
-                <select
-                  id={`${id}-espacio`}
-                  name="espacio"
-                  required
-                  aria-required="true"
-                  defaultValue=""
-                  aria-invalid={!!errores.espacio}
-                  aria-describedby={errores.espacio ? `${id}-espacio-error` : undefined}
-                  className={`${campo} cursor-pointer appearance-none bg-[length:1rem] bg-[right_0.25rem_center] bg-no-repeat pr-8`}
-                  style={{
-                    backgroundImage:
-                      "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2317171A' stroke-width='1.8'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E\")",
-                  }}
-                >
-                  <option value="" disabled>
-                    Elegí una opción
-                  </option>
+                </legend>
+                <div className="mt-3 flex flex-wrap gap-2.5">
                   {presupuestoTextos.tiposDeEspacio.map((t) => (
-                    <option key={t} value={t}>
-                      {t}
-                    </option>
+                    <label key={t} className="cursor-pointer">
+                      <input
+                        type="radio"
+                        name="espacio"
+                        value={t}
+                        onChange={() => setErrores((e) => ({ ...e, espacio: undefined }))}
+                        className="peer sr-only"
+                      />
+                      <span className={`block rounded-full border px-4 py-2.5 text-sm font-semibold text-grafito transition-colors duration-300 hover:border-negro/60 peer-checked:border-negro peer-checked:bg-negro peer-checked:text-hueso peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-negro ${
+                          errores.espacio ? "border-[#9B2C1F]" : "border-negro/20"
+                        }`}>
+                        {t}
+                      </span>
+                    </label>
                   ))}
-                </select>
+                </div>
                 {errores.espacio && (
-                  <p id={`${id}-espacio-error`} className="mt-2 text-sm font-medium text-[#9B2C1F]">
+                  <p id={`${id}-espacio-error`} className="mt-3 text-sm font-medium text-[#9B2C1F]">
                     {errores.espacio}
                   </p>
                 )}
-              </div>
+              </fieldset>
 
-              <div className="sm:col-span-2">
-                <label htmlFor={`${id}-medidas`} className={etiqueta}>
+              <fieldset className="sm:col-span-2" aria-describedby={`${id}-medidas-ayuda`}>
+                <legend className={etiqueta}>
                   Medidas aproximadas <span className="font-normal text-carbon">(opcional)</span>
-                </label>
-                <input
-                  id={`${id}-medidas`}
-                  name="medidas"
-                  type="text"
-                  placeholder="Ej.: pared de 3,20 m de largo × 2,40 m de alto"
-                  className={campo}
-                />
-              </div>
+                </legend>
+                <div className="mt-3 grid grid-cols-3 gap-3">
+                  {medidas.map((m) => (
+                    <div key={m.name}>
+                      <label htmlFor={`${id}-${m.name}`} className="block text-xs font-semibold uppercase tracking-[0.12em] text-carbon">
+                        {m.etiqueta}
+                      </label>
+                      <div
+                        className={`mt-2 flex items-center rounded-sm border bg-arena/40 px-3 transition-colors focus-within:border-negro focus-within:bg-hueso ${
+                          errores.medidas ? "border-[#9B2C1F]" : "border-negro/20"
+                        }`}
+                      >
+                        <input
+                          id={`${id}-${m.name}`}
+                          name={m.name}
+                          type="text"
+                          inputMode="numeric"
+                          autoComplete="off"
+                          maxLength={4}
+                          placeholder={m.ejemplo}
+                          onChange={() => errores.medidas && setErrores((e) => ({ ...e, medidas: undefined }))}
+                          aria-invalid={!!errores.medidas}
+                          aria-describedby={errores.medidas ? `${id}-medidas-error` : undefined}
+                          className="min-w-0 flex-1 border-0 bg-transparent py-3 text-base tabular-nums text-negro placeholder:text-carbon/60 focus:outline-none focus:ring-0"
+                        />
+                        <span aria-hidden="true" className="pl-2 text-sm font-semibold text-carbon">
+                          cm
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <p id={`${id}-medidas-ayuda`} className="mt-3 text-xs text-carbon">
+                  Todo en centímetros. Si no las sabés, dejalas vacías y te ayudamos a medir.
+                </p>
+                {errores.medidas && (
+                  <p id={`${id}-medidas-error`} className="mt-2 text-sm font-medium text-[#9B2C1F]">
+                    {errores.medidas}
+                  </p>
+                )}
+              </fieldset>
 
               <div className="sm:col-span-2">
                 <label htmlFor={`${id}-mensaje`} className={etiqueta}>
