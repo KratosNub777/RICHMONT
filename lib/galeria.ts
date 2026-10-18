@@ -3,7 +3,6 @@ import fs from "node:fs";
 import path from "node:path";
 import {
   espacios,
-  marcadoresPorEspacio,
   trabajos,
   type Carpeta,
   type Formato,
@@ -15,8 +14,7 @@ export type ItemGaleria = {
   titulo: string;
   alt: string;
   formato: Formato;
-  /** null = todavía no hay foto: se muestra un marcador "Foto pendiente". */
-  src: string | null;
+  src: string;
 };
 
 const EXTENSIONES = new Set([".jpg", ".jpeg", ".png", ".webp", ".avif"]);
@@ -75,22 +73,6 @@ export function obtenerGaleria(): ItemGaleria[] {
         alt: `${titulo} — ${nombreEspacio(carpeta).toLowerCase()} a medida de Richmont`,
         formato: RITMO[items.length % RITMO.length],
         src,
-      });
-    }
-  }
-
-  // 3. Si un espacio no tiene ninguna foto, se muestran marcadores "Foto pendiente".
-  //    Se intercalan por espacio para que el mosaico se vea variado.
-  const sinFotos = espacios.filter(({ carpeta }) => !items.some((i) => i.espacio === carpeta));
-  for (let n = 0; n < marcadoresPorEspacio; n++) {
-    for (const { carpeta, nombre } of sinFotos) {
-      items.push({
-        id: `pendiente-${carpeta}-${n}`,
-        espacio: carpeta,
-        titulo: `${nombre}: foto pendiente`,
-        alt: "",
-        formato: RITMO[items.length % RITMO.length],
-        src: null,
       });
     }
   }

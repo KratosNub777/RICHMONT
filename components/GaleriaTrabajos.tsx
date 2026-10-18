@@ -4,7 +4,6 @@ import { useCallback, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "motion/react";
 import type { ItemGaleria } from "@/lib/galeria";
-import FotoPendiente from "./FotoPendiente";
 import Lightbox from "./Lightbox";
 
 type Espacio = { carpeta: string; nombre: string };
@@ -33,8 +32,6 @@ export default function GaleriaTrabajos({ items, espacios }: { items: ItemGaleri
     () => (filtro === "todos" ? items : items.filter((i) => i.espacio === filtro)),
     [items, filtro],
   );
-  // El lightbox solo recorre fotos reales del filtro actual.
-  const fotos = useMemo(() => visibles.filter((i) => i.src), [visibles]);
 
   const nombreDe = (carpeta: string) => espacios.find((e) => e.carpeta === carpeta)?.nombre ?? carpeta;
 
@@ -99,49 +96,45 @@ export default function GaleriaTrabajos({ items, espacios }: { items: ItemGaleri
               transition={{ duration: 0.55, ease, delay: Math.min(i, 8) * 0.03 }}
               className={`relative overflow-hidden rounded-sm ${tamanos[item.formato]}`}
             >
-              {item.src ? (
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    origenRef.current = e.currentTarget;
-                    setAbierta(fotos.findIndex((f) => f.id === item.id));
-                  }}
-                  className="group absolute inset-0 block h-full w-full cursor-zoom-in text-left"
-                  aria-label={`Ver en grande: ${item.titulo}`}
-                >
-                  <Image
-                    src={item.src}
-                    alt={item.alt}
-                    fill
-                    sizes={sizes[item.formato]}
-                    quality={70}
-                    className="bg-arena object-cover transition-transform duration-[1.2s] ease-mueble group-hover:scale-[1.05]"
-                  />
+              <button
+                type="button"
+                onClick={(e) => {
+                  origenRef.current = e.currentTarget;
+                  setAbierta(i);
+                }}
+                className="group absolute inset-0 block h-full w-full cursor-zoom-in text-left"
+                aria-label={`Ver en grande: ${item.titulo}`}
+              >
+                <Image
+                  src={item.src}
+                  alt={item.alt}
+                  fill
+                  sizes={sizes[item.formato]}
+                  quality={70}
+                  className="bg-arena object-cover transition-transform duration-[1.2s] ease-mueble group-hover:scale-[1.05]"
+                />
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-0 bg-gradient-to-t from-negro/75 via-negro/10 to-transparent transition-opacity duration-500 pointer-fine:opacity-0 pointer-fine:group-hover:opacity-100 pointer-fine:group-focus-visible:opacity-100"
+                />
+                <span className="absolute inset-x-0 bottom-0 p-3 text-hueso transition-all duration-500 ease-mueble sm:p-5 pointer-fine:translate-y-3 pointer-fine:opacity-0 pointer-fine:group-hover:translate-y-0 pointer-fine:group-hover:opacity-100 pointer-fine:group-focus-visible:translate-y-0 pointer-fine:group-focus-visible:opacity-100">
+                  <span className="block text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ambar">
+                    {nombreDe(item.espacio)}
+                  </span>
+                  <span className="mt-1 block font-display text-sm font-semibold sm:text-lg">{item.titulo}</span>
                   <span
                     aria-hidden="true"
-                    className="absolute inset-0 bg-gradient-to-t from-negro/75 via-negro/10 to-transparent transition-opacity duration-500 pointer-fine:opacity-0 pointer-fine:group-hover:opacity-100 pointer-fine:group-focus-visible:opacity-100"
+                    className="mt-3 hidden h-px w-10 origin-left scale-x-0 bg-ambar transition-transform delay-100 duration-700 ease-mueble group-hover:scale-x-100 sm:block"
                   />
-                  <span className="absolute inset-x-0 bottom-0 p-3 text-hueso transition-all duration-500 ease-mueble sm:p-5 pointer-fine:translate-y-3 pointer-fine:opacity-0 pointer-fine:group-hover:translate-y-0 pointer-fine:group-hover:opacity-100 pointer-fine:group-focus-visible:translate-y-0 pointer-fine:group-focus-visible:opacity-100">
-                    <span className="block text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ambar">
-                      {nombreDe(item.espacio)}
-                    </span>
-                    <span className="mt-1 block font-display text-sm font-semibold sm:text-lg">{item.titulo}</span>
-                    <span
-                      aria-hidden="true"
-                      className="mt-3 hidden h-px w-10 origin-left scale-x-0 bg-ambar transition-transform delay-100 duration-700 ease-mueble group-hover:scale-x-100 sm:block"
-                    />
-                  </span>
-                </button>
-              ) : (
-                <FotoPendiente detalle={nombreDe(item.espacio)} />
-              )}
+                </span>
+              </button>
             </motion.li>
           ))}
         </AnimatePresence>
       </motion.ul>
 
       <Lightbox
-        fotos={fotos}
+        fotos={visibles}
         indice={abierta}
         alCambiar={setAbierta}
         alCerrar={cerrar}
