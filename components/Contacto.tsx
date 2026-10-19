@@ -1,7 +1,7 @@
 import { contacto, contactoTextos, hero, linkInstagram, linkWhatsapp, marca, navegacion } from "@/data/sitio";
 import { Magnetico, Revelar, TituloRevelado } from "./movimiento";
 import LineaQueSeDibuja from "./LineaQueSeDibuja";
-import { Etiqueta, IconoInstagram, IconoWhatsapp, Logo, Marcador } from "./ui";
+import { Etiqueta, IconoInstagram, IconoWhatsapp, Logo } from "./ui";
 
 type Dato = { titulo: string; valor: string | null; href?: string; externo?: boolean };
 
@@ -14,6 +14,7 @@ export default function Contacto() {
     { titulo: "Dirección", valor: [contacto.direccion, contacto.ciudad].filter(Boolean).join(", ") || null },
     { titulo: "Horarios", valor: contacto.horarios },
   ];
+  const datosDisponibles = datos.filter((dato) => dato.valor?.trim());
 
   return (
     <footer id="contacto" aria-labelledby="titulo-contacto" className="fondo-oscuro relative text-hueso">
@@ -45,18 +46,14 @@ export default function Contacto() {
             </Revelar>
           </div>
 
-          <ul className="grid gap-x-10 gap-y-8 sm:grid-cols-2 lg:col-span-6">
-            {datos.map((d, i) => (
+          <ul className="grid content-start gap-x-10 gap-y-8 sm:grid-cols-2 lg:col-span-6">
+            {datosDisponibles.map((d, i) => (
               <li key={d.titulo}>
               <Revelar retraso={(i % 2) * 0.08}>
                 <LineaQueSeDibuja oscuro retraso={(i % 2) * 0.08} />
                 <p className="mt-5 text-etiqueta font-semibold uppercase text-roble">{d.titulo}</p>
                 <p className="mt-2 text-lg">
-                  {d.valor === null ? (
-                    <span className="text-greige">
-                      <Marcador />
-                    </span>
-                  ) : d.href ? (
+                  {d.href ? (
                     <a
                       href={d.href}
                       {...(d.externo ? { target: "_blank", rel: "noopener noreferrer" } : {})}
