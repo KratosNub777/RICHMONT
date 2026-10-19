@@ -5,7 +5,7 @@ import Image from "next/image";
 import { motion, useScroll, useTransform } from "motion/react";
 import { hero, linkWhatsapp } from "@/data/sitio";
 import { Magnetico, Parallax, TituloRevelado } from "./movimiento";
-import { Etiqueta, IconoFlecha, IconoWhatsapp, Marcador } from "./ui";
+import { Etiqueta, IconoFlecha, IconoWhatsapp } from "./ui";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -62,9 +62,6 @@ export default function Hero() {
                   "radial-gradient(55% 60% at 50% 0%, color-mix(in srgb, var(--ambar) 14%, transparent), transparent 70%)",
               }}
             />
-            <div className="absolute right-5 top-24 text-greige sm:right-8 lg:right-12 lg:top-28">
-              <Marcador>Foto de portada pendiente</Marcador>
-            </div>
           </>
         )}
       </div>
