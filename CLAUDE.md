@@ -75,7 +75,7 @@ Para cambiar un texto, un dato de contacto o un color se edita ese archivo, no e
   Para agregar un color: súmalo a `colores` y a `@theme inline` en `globals.css`.
   Los colores `*Texto` son las versiones oscuras para texto chico sobre fondo claro (contraste AA).
 - **Datos pendientes:** `PENDIENTE` (`null`) marca lo que falta (email, Facebook, dirección, ciudad, horarios,
-  logo, testimonios). La web muestra un marcador visible ("Pendiente") en vez de inventar información. Nunca
+  logo, testimonios). El pie de página oculta los datos de contacto sin contenido; otras secciones conservan sus marcadores. Nunca
   inventes datos del negocio, reseñas ni fotos: dejá `null`.
 - **WhatsApp:** `linkWhatsapp(mensaje)` arma el `wa.me/…?text=…`. Número en `contacto.whatsappInternacional`.
 
@@ -202,7 +202,8 @@ de commits ya publicados.
 ## Qué falta completar (no inventar)
 
 - Logo: copiar a `public/logo/` y completar `marca.logo` (`src`, `ancho`, `alto`).
-- Email, Facebook, dirección, ciudad y horarios en `contacto` (hoy `null`).
+- Email y Facebook en `contacto` (hoy `null`, ocultos en el pie de página).
+- Completar horarios de martes a domingo solo cuando se confirmen: Google Maps publica únicamente lunes de 7:30 a 20:45.
 - Testimonios reales de clientes (con su permiso) en `testimonios`.
 - Foto de portada en `hero.foto`.
 - Fotos de `exterior` y `otros`.

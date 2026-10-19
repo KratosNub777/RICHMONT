@@ -49,9 +49,11 @@ y `fotoAlt` con una descripción breve de la foto.
 
 ### Datos pendientes
 
-Email, Facebook, dirección, ciudad y horarios están en `null` dentro de `data/sitio.ts`.
-Mientras sigan así, la web muestra un marcador **"Pendiente"**. Al completarlos, también se agregan
-automáticamente a los datos para Google. Los testimonios se cargan en la lista `testimonios` del mismo archivo
+Email y Facebook están en `null` dentro de `data/sitio.ts` y no se muestran en el pie de página.
+La dirección de Asunción y el enlace al mapa provienen de la ficha de Google Maps compartida por el dueño.
+Esa ficha solo publica el horario del lunes (7:30 a 20:45); no se asumen horarios para otros días.
+Los datos de contacto sin contenido se ocultan automáticamente. Al completar dirección, ciudad o email,
+también se agregan automáticamente a los datos para Google. Los testimonios se cargan en la lista `testimonios` del mismo archivo
 (solo opiniones reales, con permiso del cliente).
 
 ## Publicarla en Vercel (gratis)
