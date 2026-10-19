@@ -28,7 +28,7 @@ const medidas = [
 ] as const;
 
 const campo =
-  "mt-2 block w-full rounded-none border-0 border-b border-negro/25 bg-transparent px-0 py-3 text-base text-negro placeholder:text-carbon/80 transition-colors focus:border-negro focus:outline-none focus:ring-0 aria-[invalid=true]:border-[#9B2C1F]";
+  "mt-2.5 block min-h-13 w-full rounded-xl border border-negro/15 bg-white px-4 py-3.5 text-base text-negro placeholder:text-carbon transition-[border-color,box-shadow] hover:border-roble focus:border-roble-texto focus:outline-none focus:ring-3 focus:ring-roble/15 aria-[invalid=true]:border-[#9B2C1F] aria-[invalid=true]:focus:ring-[#9B2C1F]/15";
 const etiqueta = "block text-sm font-semibold text-grafito";
 
 export default function Presupuesto() {
