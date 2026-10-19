@@ -11,7 +11,7 @@ export default function Contacto() {
     { titulo: "Instagram", valor: `@${contacto.instagram}`, href: linkInstagram, externo: true },
     { titulo: "Email", valor: contacto.email, href: contacto.email ? `mailto:${contacto.email}` : undefined },
     { titulo: "Facebook", valor: contacto.facebook ? "Richmont Furniture" : null, href: contacto.facebook ?? undefined, externo: true },
-    { titulo: "Dirección", valor: [contacto.direccion, contacto.ciudad].filter(Boolean).join(", ") || null },
+    { titulo: "Dirección", valor: [contacto.direccion, contacto.ciudad].filter(Boolean).join(", ") || null, href: contacto.mapa, externo: true },
     { titulo: "Horarios", valor: contacto.horarios },
   ];
   const datosDisponibles = datos.filter((dato) => dato.valor?.trim());
