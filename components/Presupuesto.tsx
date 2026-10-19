@@ -3,7 +3,6 @@
 import { useId, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { contacto, linkWhatsapp, presupuestoTextos } from "@/data/sitio";
-import { Magnetico } from "./movimiento";
 import { Etiqueta, IconoFlecha, IconoWhatsapp } from "./ui";
 
 type Errores = Partial<Record<"nombre" | "espacio" | "medidas", string>>;
@@ -226,7 +225,7 @@ export default function Presupuesto() {
                             {m.etiqueta}
                           </label>
                           <div
-                            className={`mt-2 flex items-center rounded-sm border bg-arena/40 px-3 transition-colors focus-within:border-negro focus-within:bg-hueso ${
+                            className={`mt-2 flex items-center rounded-xl border bg-white px-3 transition-[border-color,box-shadow] focus-within:border-roble-texto focus-within:ring-3 focus-within:ring-roble/15 ${
                               errores.medidas ? "border-[#9B2C1F]" : "border-negro/20"
                             }`}
                           >
@@ -267,25 +266,25 @@ export default function Presupuesto() {
                     <textarea
                       id={`${id}-mensaje`}
                       name="mensaje"
-                      rows={4}
+                      rows={3}
                       placeholder="Contanos qué te gustaría: estilo, colores, qué necesitás guardar…"
-                      className={`${campo} resize-y`}
+                      className={`${campo} min-h-28 resize-y`}
                     />
                   </div>
                 </div>
               </fieldset>
 
-              <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                <p className="text-xs text-carbon">* Campos obligatorios</p>
-                <Magnetico>
-                  <button
-                    type="submit"
-                    className="inline-flex w-full items-center justify-center gap-2.5 rounded-full bg-negro px-7 py-4 font-semibold text-hueso transition-colors hover:bg-salvia-texto sm:w-auto"
-                  >
-                    <IconoWhatsapp />
-                    {presupuestoTextos.boton}
-                  </button>
-                </Magnetico>
+              <div className="mt-7 border-t border-negro/10 pt-6">
+                <p className="mb-4 text-xs text-carbon">* Campos obligatorios. Los demás podés completarlos después.</p>
+                <button
+                  type="submit"
+                  className="group inline-flex min-h-14 w-full items-center justify-center gap-3 rounded-xl bg-salvia-texto px-4 py-4 text-sm font-semibold text-white shadow-[0_6px_18px_-8px_var(--salviaTexto)] transition-[background-color,box-shadow] hover:bg-negro hover:shadow-lg sm:px-6 sm:text-base"
+                >
+                  <IconoWhatsapp className="size-5 shrink-0" />
+                  {presupuestoTextos.boton}
+                  <IconoFlecha className="ml-auto size-4 shrink-0 transition-transform group-hover:translate-x-1" />
+                </button>
+                <p className="mt-3 text-center text-xs leading-relaxed text-carbon">Se abrirá WhatsApp para que revises y envíes tu consulta.</p>
               </div>
 
               <div aria-live="polite">
