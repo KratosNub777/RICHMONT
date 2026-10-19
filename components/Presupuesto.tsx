@@ -140,122 +140,140 @@ export default function Presupuesto() {
               noValidate
               className="p-6 sm:p-10 lg:p-12"
             >
-              <div className="grid gap-8 sm:grid-cols-2">
-                <div className="sm:col-span-2">
-                  <label htmlFor={`${id}-nombre`} className={etiqueta}>
-                    Nombre <span aria-hidden="true">*</span>
-                  </label>
-                  <input
-                    id={`${id}-nombre`}
-                    name="nombre"
-                    type="text"
-                    autoComplete="name"
-                    required
-                    aria-required="true"
-                    aria-invalid={!!errores.nombre}
-                    aria-describedby={errores.nombre ? `${id}-nombre-error` : undefined}
-                    placeholder="Tu nombre"
-                    className={campo}
-                  />
-                  {errores.nombre && (
-                    <p id={`${id}-nombre-error`} className="mt-2 text-sm font-medium text-[#9B2C1F]">
-                      {errores.nombre}
-                    </p>
-                  )}
-                </div>
-
-                <fieldset
-                  role="radiogroup"
-                  className="sm:col-span-2"
-                  aria-required="true"
-                  aria-describedby={errores.espacio ? `${id}-espacio-error` : undefined}
-                >
-                  <legend className={etiqueta}>
-                    Tipo de espacio <span aria-hidden="true">*</span>
-                  </legend>
-                  <div className="mt-3 flex flex-wrap gap-2.5">
-                    {presupuestoTextos.tiposDeEspacio.map((t) => (
-                      <label key={t} className="cursor-pointer">
-                        <input
-                          type="radio"
-                          name="espacio"
-                          value={t}
-                          onChange={() => setErrores((e) => ({ ...e, espacio: undefined }))}
-                          className="peer sr-only"
-                        />
-                        <span className={`block rounded-full border px-4 py-2.5 text-sm font-semibold text-grafito transition-colors duration-300 hover:border-negro/60 peer-checked:border-negro peer-checked:bg-negro peer-checked:text-hueso peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-negro ${
-                            errores.espacio ? "border-[#9B2C1F]" : "border-negro/20"
-                          }`}>
-                          {t}
-                        </span>
-                      </label>
-                    ))}
-                  </div>
-                  {errores.espacio && (
-                    <p id={`${id}-espacio-error`} className="mt-3 text-sm font-medium text-[#9B2C1F]">
-                      {errores.espacio}
-                    </p>
-                  )}
-                </fieldset>
-
-                <fieldset className="sm:col-span-2" aria-describedby={`${id}-medidas-ayuda`}>
-                  <legend className={etiqueta}>
-                    Medidas aproximadas <span className="font-normal text-carbon">(opcional)</span>
-                  </legend>
-                  <div className="mt-3 grid grid-cols-3 gap-3">
-                    {medidas.map((m) => (
-                      <div key={m.name}>
-                        <label htmlFor={`${id}-${m.name}`} className="block text-xs font-semibold uppercase tracking-[0.12em] text-carbon">
-                          {m.etiqueta}
-                        </label>
-                        <div
-                          className={`mt-2 flex items-center rounded-sm border bg-arena/40 px-3 transition-colors focus-within:border-negro focus-within:bg-hueso ${
-                            errores.medidas ? "border-[#9B2C1F]" : "border-negro/20"
-                          }`}
-                        >
-                          <input
-                            id={`${id}-${m.name}`}
-                            name={m.name}
-                            type="text"
-                            inputMode="numeric"
-                            autoComplete="off"
-                            maxLength={4}
-                            placeholder={m.ejemplo}
-                            onChange={() => errores.medidas && setErrores((e) => ({ ...e, medidas: undefined }))}
-                            aria-invalid={!!errores.medidas}
-                            aria-describedby={errores.medidas ? `${id}-medidas-error` : undefined}
-                            className="min-w-0 flex-1 border-0 bg-transparent py-3 text-base tabular-nums text-negro placeholder:text-carbon/60 focus:outline-none focus:ring-0"
-                          />
-                          <span aria-hidden="true" className="pl-2 text-sm font-semibold text-carbon">
-                            cm
-                          </span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                  <p id={`${id}-medidas-ayuda`} className="mt-3 text-xs text-carbon">
-                    Todo en centímetros. Si no las sabés, dejalas vacías y te ayudamos a medir.
-                  </p>
-                  {errores.medidas && (
-                    <p id={`${id}-medidas-error`} className="mt-2 text-sm font-medium text-[#9B2C1F]">
-                      {errores.medidas}
-                    </p>
-                  )}
-                </fieldset>
-
-                <div className="sm:col-span-2">
-                  <label htmlFor={`${id}-mensaje`} className={etiqueta}>
-                    Mensaje <span className="font-normal text-carbon">(opcional)</span>
-                  </label>
-                  <textarea
-                    id={`${id}-mensaje`}
-                    name="mensaje"
-                    rows={4}
-                    placeholder="Contanos qué te gustaría: estilo, colores, qué necesitás guardar…"
-                    className={`${campo} resize-y`}
-                  />
-                </div>
+              <div className="mb-8 border-b border-negro/10 pb-6">
+                <h3 className="font-display text-2xl font-semibold tracking-tight text-negro">Demos el primer paso</h3>
+                <p className="mt-2 text-sm leading-relaxed text-carbon">Una idea es suficiente para empezar. Contanos la tuya.</p>
               </div>
+              <fieldset>
+                <legend className="mb-5 flex items-center gap-3 text-sm font-semibold text-negro">
+                  <span aria-hidden="true" className="grid size-7 place-items-center rounded-full bg-roble/15 text-xs text-roble-texto">01</span>
+                  Vos y tu espacio
+                </legend>
+                <div className="grid gap-5">
+                  <div className="min-w-0">
+                    <label htmlFor={`${id}-nombre`} className={etiqueta}>
+                      Nombre <span aria-hidden="true">*</span>
+                    </label>
+                    <input
+                      id={`${id}-nombre`}
+                      name="nombre"
+                      type="text"
+                      autoComplete="name"
+                      required
+                      aria-required="true"
+                      aria-invalid={!!errores.nombre}
+                      aria-describedby={errores.nombre ? `${id}-nombre-error` : undefined}
+                      placeholder="Tu nombre"
+                      className={campo}
+                    />
+                    {errores.nombre && (
+                      <p id={`${id}-nombre-error`} className="mt-2 text-sm font-medium text-[#9B2C1F]">
+                        {errores.nombre}
+                      </p>
+                    )}
+                  </div>
+
+                  <fieldset
+                    role="radiogroup"
+                    className="min-w-0"
+                    aria-required="true"
+                    aria-describedby={errores.espacio ? `${id}-espacio-error` : undefined}
+                  >
+                    <legend className={etiqueta}>
+                      Tipo de espacio <span aria-hidden="true">*</span>
+                    </legend>
+                    <div className="mt-3 flex flex-wrap gap-2.5">
+                      {presupuestoTextos.tiposDeEspacio.map((t) => (
+                        <label key={t} className="cursor-pointer">
+                          <input
+                            type="radio"
+                            name="espacio"
+                            value={t}
+                            onChange={() => setErrores((e) => ({ ...e, espacio: undefined }))}
+                            className="peer sr-only"
+                          />
+                          <span className={`block rounded-full border px-4 py-2.5 text-sm font-semibold text-grafito transition-colors duration-300 hover:border-negro/60 peer-checked:border-negro peer-checked:bg-negro peer-checked:text-hueso peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-negro ${
+                              errores.espacio ? "border-[#9B2C1F]" : "border-negro/20"
+                            }`}>
+                            {t}
+                          </span>
+                        </label>
+                      ))}
+                    </div>
+                    {errores.espacio && (
+                      <p id={`${id}-espacio-error`} className="mt-3 text-sm font-medium text-[#9B2C1F]">
+                        {errores.espacio}
+                      </p>
+                    )}
+                  </fieldset>
+                </div>
+              </fieldset>
+
+              <fieldset className="mt-8">
+                <legend className="mb-5 flex items-center gap-3 text-sm font-semibold text-negro">
+                  <span aria-hidden="true" className="grid size-7 place-items-center rounded-full bg-roble/15 text-xs text-roble-texto">02</span>
+                  Dale forma a tu idea
+                </legend>
+                <div className="grid gap-5">
+                  <fieldset className="min-w-0" aria-describedby={`${id}-medidas-ayuda`}>
+                    <legend className={etiqueta}>
+                      Medidas aproximadas <span className="font-normal text-carbon">(opcional)</span>
+                    </legend>
+                    <div className="mt-3 grid grid-cols-3 gap-3">
+                      {medidas.map((m) => (
+                        <div key={m.name}>
+                          <label htmlFor={`${id}-${m.name}`} className="block text-xs font-semibold uppercase tracking-[0.12em] text-carbon">
+                            {m.etiqueta}
+                          </label>
+                          <div
+                            className={`mt-2 flex items-center rounded-sm border bg-arena/40 px-3 transition-colors focus-within:border-negro focus-within:bg-hueso ${
+                              errores.medidas ? "border-[#9B2C1F]" : "border-negro/20"
+                            }`}
+                          >
+                            <input
+                              id={`${id}-${m.name}`}
+                              name={m.name}
+                              type="text"
+                              inputMode="numeric"
+                              autoComplete="off"
+                              maxLength={4}
+                              placeholder={m.ejemplo}
+                              onChange={() => errores.medidas && setErrores((e) => ({ ...e, medidas: undefined }))}
+                              aria-invalid={!!errores.medidas}
+                              aria-describedby={errores.medidas ? `${id}-medidas-error` : undefined}
+                              className="min-w-0 flex-1 border-0 bg-transparent py-3 text-base tabular-nums text-negro placeholder:text-carbon/60 focus:outline-none focus:ring-0"
+                            />
+                            <span aria-hidden="true" className="pl-2 text-sm font-semibold text-carbon">
+                              cm
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    <p id={`${id}-medidas-ayuda`} className="mt-3 text-xs text-carbon">
+                      Todo en centímetros. Si no las sabés, dejalas vacías y te ayudamos a medir.
+                    </p>
+                    {errores.medidas && (
+                      <p id={`${id}-medidas-error`} className="mt-2 text-sm font-medium text-[#9B2C1F]">
+                        {errores.medidas}
+                      </p>
+                    )}
+                  </fieldset>
+
+                  <div className="min-w-0">
+                    <label htmlFor={`${id}-mensaje`} className={etiqueta}>
+                      Mensaje <span className="font-normal text-carbon">(opcional)</span>
+                    </label>
+                    <textarea
+                      id={`${id}-mensaje`}
+                      name="mensaje"
+                      rows={4}
+                      placeholder="Contanos qué te gustaría: estilo, colores, qué necesitás guardar…"
+                      className={`${campo} resize-y`}
+                    />
+                  </div>
+                </div>
+              </fieldset>
 
               <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <p className="text-xs text-carbon">* Campos obligatorios</p>
