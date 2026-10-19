@@ -59,9 +59,11 @@ export const contacto = {
   instagram: "richmontpy",
   email: PENDIENTE as string | null,
   facebook: PENDIENTE as string | null, // link completo de la página
-  direccion: PENDIENTE as string | null,
-  ciudad: PENDIENTE as string | null,
-  horarios: PENDIENTE as string | null, // ej: "Lunes a viernes de 8:00 a 17:00"
+  direccion: "MC87+9VP, Cacique Caracará" as string | null,
+  ciudad: "Asunción" as string | null,
+  // La ficha consultada solo publica el horario del lunes.
+  horarios: "Lunes: 7:30 a 20:45" as string | null,
+  mapa: "https://www.google.com/maps?cid=5946536662732962178",
 };
 
 export const mensajeWhatsappGeneral =
