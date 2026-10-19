@@ -190,6 +190,14 @@ export const testimoniosTextos = {
 };
 
 export const presupuestoTextos = {
+  distintivo: "A tu medida · Sin compromiso",
+  contactoDirecto: "¿Preferís conversar directamente?",
+  tituloFormulario: "Demos el primer paso",
+  introFormulario: "Una idea es suficiente para empezar. Contanos la tuya.",
+  grupoEspacio: "Vos y tu espacio",
+  grupoIdea: "Dale forma a tu idea",
+  camposObligatorios: "* Campos obligatorios. Los demás podés completarlos después.",
+  avisoWhatsapp: "Se abrirá WhatsApp para que revises y envíes tu consulta.",
   etiqueta: "Presupuesto",
   titulo: "Contanos tu proyecto",
   intro:

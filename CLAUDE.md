@@ -124,6 +124,11 @@ son opcionales. El tipo de espacio se elige con botones (radios con aspecto de p
 cada uno de 1 a 4 dígitos enteros; si alguno es inválido se muestra el error. Al enviar valida, arma un mensaje de
 texto (ej.: "320 cm de largo × 240 cm de alto") y abre WhatsApp con `linkWhatsapp`. No se guarda nada.
 
+El formulario se presenta en una tarjeta de dos paneles: presentación oscura e ilustración decorativa a la
+izquierda, campos claros a la derecha; en móvil se apilan. Los datos están agrupados en dos bloques y el
+botón de WhatsApp ocupa todo el ancho. Los campos se muestran desde el inicio, sin animación de entrada.
+Los textos de presentación y ayuda visual están en `presupuestoTextos` dentro de `data/sitio.ts`.
+
 ### Movimiento y scroll
 
 - `components/movimiento.tsx`: `Revelar`, `TituloRevelado`, `Magnetico`, `Parallax` (Motion).
