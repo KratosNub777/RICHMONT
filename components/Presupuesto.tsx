@@ -101,7 +101,7 @@ export default function Presupuesto() {
             <div className="mt-9">
               <div className="inline-flex items-center gap-2 rounded-full border border-roble/35 bg-roble/10 px-4 py-2 text-sm text-hueso">
                 <span aria-hidden="true" className="size-1.5 rounded-full bg-ambar" />
-                A tu medida · Sin compromiso
+                {presupuestoTextos.distintivo}
               </div>
             </div>
 
@@ -117,7 +117,7 @@ export default function Presupuesto() {
             </div>
 
             <div className="mt-10 border-t border-hueso/15 pt-7 lg:mt-auto">
-              <p className="text-sm text-greige">¿Preferís conversar directamente?</p>
+              <p className="text-sm text-greige">{presupuestoTextos.contactoDirecto}</p>
               <a
                 href={linkWhatsapp()}
                 target="_blank"
@@ -140,13 +140,13 @@ export default function Presupuesto() {
               className="p-6 sm:p-10 lg:p-12"
             >
               <div className="mb-8 border-b border-negro/10 pb-6">
-                <h3 className="font-display text-2xl font-semibold tracking-tight text-negro">Demos el primer paso</h3>
-                <p className="mt-2 text-sm leading-relaxed text-carbon">Una idea es suficiente para empezar. Contanos la tuya.</p>
+                <h3 className="font-display text-2xl font-semibold tracking-tight text-negro">{presupuestoTextos.tituloFormulario}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-carbon">{presupuestoTextos.introFormulario}</p>
               </div>
               <fieldset>
                 <legend className="mb-5 flex items-center gap-3 text-sm font-semibold text-negro">
                   <span aria-hidden="true" className="grid size-7 place-items-center rounded-full bg-roble/15 text-xs text-roble-texto">01</span>
-                  Vos y tu espacio
+                  {presupuestoTextos.grupoEspacio}
                 </legend>
                 <div className="grid gap-5">
                   <div className="min-w-0">
@@ -211,7 +211,7 @@ export default function Presupuesto() {
               <fieldset className="mt-8">
                 <legend className="mb-5 flex items-center gap-3 text-sm font-semibold text-negro">
                   <span aria-hidden="true" className="grid size-7 place-items-center rounded-full bg-roble/15 text-xs text-roble-texto">02</span>
-                  Dale forma a tu idea
+                  {presupuestoTextos.grupoIdea}
                 </legend>
                 <div className="grid gap-5">
                   <fieldset className="min-w-0" aria-describedby={`${id}-medidas-ayuda`}>
@@ -275,7 +275,7 @@ export default function Presupuesto() {
               </fieldset>
 
               <div className="mt-7 border-t border-negro/10 pt-6">
-                <p className="mb-4 text-xs text-carbon">* Campos obligatorios. Los demás podés completarlos después.</p>
+                <p className="mb-4 text-xs text-carbon">{presupuestoTextos.camposObligatorios}</p>
                 <button
                   type="submit"
                   className="group inline-flex min-h-14 w-full items-center justify-center gap-3 rounded-xl bg-salvia-texto px-4 py-4 text-sm font-semibold text-white shadow-[0_6px_18px_-8px_var(--salviaTexto)] transition-[background-color,box-shadow] hover:bg-negro hover:shadow-lg sm:px-6 sm:text-base"
@@ -284,7 +284,7 @@ export default function Presupuesto() {
                   {presupuestoTextos.boton}
                   <IconoFlecha className="ml-auto size-4 shrink-0 transition-transform group-hover:translate-x-1" />
                 </button>
-                <p className="mt-3 text-center text-xs leading-relaxed text-carbon">Se abrirá WhatsApp para que revises y envíes tu consulta.</p>
+                <p className="mt-3 text-center text-xs leading-relaxed text-carbon">{presupuestoTextos.avisoWhatsapp}</p>
               </div>
 
               <div aria-live="polite">
